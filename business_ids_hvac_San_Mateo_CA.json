@@ -1,0 +1,31 @@
+{
+  "query": "hvac",
+  "location": "San Mateo, CA",
+  "timestamp": "2025-08-21T21:33:50.508409",
+  "total_results": 10,
+  "place_ids": [
+    "ChIJpcIVjl_KQYgRbQkYxsEU8Zg",
+    "ChIJa0fgagnKQYgRKsts8Rkn2Co",
+    "ChIJS0Z8CK5KQIgRfFpkj5JGT68",
+    "ChIJ0WRniQu2QYgR95t5kW5R5QU",
+    "ChIJNQE5ybu1QYgRtsCjCm6F0Vs",
+    "ChIJZ2jU-YjKQYgRzGuNlE65C0U",
+    "ChIJsVTkmVo1QIgRolAXXZUnOiE",
+    "ChIJudNAjUU1QIgRUYTB0bbsn1o",
+    "ChIJaVqcK6g2QIgRxkOnp4sbVd0",
+    "ChIJe-1w8X2yQYgROX8gZnb-7-Y"
+  ],
+  "fids": [
+    "encoded:!4m7!3m6!1s0x8841ca5f8e15c2a5:...",
+    "encoded:!4m7!3m6!1s0x8841ca096ae0476b:...",
+    "encoded:!4m7!3m6!1s0x88404aae087c464b:...",
+    "encoded:!4m7!3m6!1s0x8841b60b896764d1:...",
+    "encoded:!4m7!3m6!1s0x8841b5bbc9390135:...",
+    "encoded:!4m7!3m6!1s0x8841ca88f9d46867:...",
+    "encoded:!4m7!3m6!1s0x8840355a99e454b1:...",
+    "encoded:!4m7!3m6!1s0x884035458d40d3b9:...",
+    "encoded:!4m7!3m6!1s0x884036a82b9c5a69:...",
+    "encoded:!4m7!3m6!1s0x8841b27df170ed7b:..."
+  ],
+  "field_source": "confirmed_from_github_samples_and_n8n_workflow"
+}

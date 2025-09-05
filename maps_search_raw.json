@@ -1,0 +1,387 @@
+{
+  "general": {
+    "query": "Air Conditioner Service Near Me San Mateo, CA",
+    "language": "en",
+    "country": "United States",
+    "country_code": "US",
+    "gl": "US",
+    "location": {
+      "latitude": 37.54663705,
+      "longitude": -122.3086197,
+      "zoom": 14
+    }
+  },
+  "organic": [
+    {
+      "title": "Air Conditioner Service Near Me",
+      "address": "6 E 39th Ave, San Mateo, CA 94403",
+      "phone": "+16502606271",
+      "open_hours": {
+        "Thursday": "7\u202fAM\u20138\u202fPM",
+        "Friday": "7\u202fAM\u20138\u202fPM",
+        "Saturday": "Closed",
+        "Sunday": "7\u202fAM\u20138\u202fPM",
+        "Monday": "7\u202fAM\u20138\u202fPM",
+        "Tuesday": "7\u202fAM\u20138\u202fPM",
+        "Wednesday": "7\u202fAM\u20138\u202fPM"
+      },
+      "category": [
+        {
+          "id": "air_conditioning_contractor",
+          "title": "Air conditioning contractor"
+        }
+      ],
+      "tags": [
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_repair",
+          "key_title": "Repair services",
+          "value": 1,
+          "value_title": "Has repair services",
+          "value_title_short": "Repair services"
+        }
+      ],
+      "rating": 5,
+      "reviews_cnt": 24,
+      "latitude": 37.5331909,
+      "longitude": -122.291615,
+      "claimed": true,
+      "fid": "0x808f9f176e8414e9:0xff48e189cec6f974",
+      "map_id_encoded": "ChIJ6RSEbhefj4ARdPnGzonhSP8",
+      "map_id": "0x808f9f176e8414e9:0xff48e189cec6f974",
+      "map_link": "https://www.google.com/maps/place/data=!3m1!4b1!4m2!3m1!1s0x808f9f176e8414e9:0xff48e189cec6f974",
+      "original_image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=YGhoJI3vFcR9dJVUvV01ug&cb_client=search.gws-prod.gps&w=408&h=240&yaw=132.57076&pitch=0&thumbfov=100",
+      "image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=YGhoJI3vFcR9dJVUvV01ug&cb_client=search.gws-prod.gps&w=80&h=92&yaw=132.57076&pitch=0&thumbfov=100",
+      "thumbnail": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=YGhoJI3vFcR9dJVUvV01ug&cb_client=search.gws-prod.gps&w=86&h=86&yaw=132.57076&pitch=0&thumbfov=100",
+      "icon": "https://lh5.googleusercontent.com/-NYcPochZluU/AAAAAAAAAAI/AAAAAAAAAAA/L_3OSJbvqc8/s44-p-k-no-ns-nd/photo.jpg",
+      "image_url": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=YGhoJI3vFcR9dJVUvV01ug&cb_client=search.gws-prod.gps&w=80&h=92&yaw=132.57076&pitch=0&thumbfov=100",
+      "rank": 1
+    },
+    {
+      "title": "Premier Air Cooling & Heating",
+      "address": "1206 W Hillsdale Blvd, San Mateo, CA 94403",
+      "phone": "+16508655188",
+      "open_hours": {
+        "Thursday": "6\u202fAM\u201311\u202fPM",
+        "Friday": "6\u202fAM\u201311\u202fPM",
+        "Saturday": "6\u202fAM\u201311\u202fPM",
+        "Sunday": "6\u202fAM\u201311\u202fPM",
+        "Monday": "6\u202fAM\u201311\u202fPM",
+        "Tuesday": "6\u202fAM\u201311\u202fPM",
+        "Wednesday": "6\u202fAM\u201311\u202fPM"
+      },
+      "category": [
+        {
+          "id": "hvac_contractor",
+          "title": "HVAC contractor"
+        },
+        {
+          "id": "air_conditioning_repair_service",
+          "title": "Air conditioning repair service"
+        },
+        {
+          "id": "heating_contractor",
+          "title": "Heating contractor"
+        },
+        {
+          "id": "solar_energy_contractor",
+          "title": "Solar energy system service"
+        },
+        {
+          "id": "water_filter_supplier",
+          "title": "Water filter supplier"
+        }
+      ],
+      "tags": [
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_repair",
+          "key_title": "Repair services",
+          "value": 1,
+          "value_title": "Has repair services",
+          "value_title_short": "Repair services"
+        }
+      ],
+      "rating": 5,
+      "reviews_cnt": 22,
+      "latitude": 37.53369,
+      "longitude": -122.3256244,
+      "claimed": false,
+      "fid": "0x8818fdcfcb5228e7:0x385174813fa051ac",
+      "map_id_encoded": "ChIJ5yhSy8_9GIgRrFGgP4F0UTg",
+      "map_id": "0x8818fdcfcb5228e7:0x385174813fa051ac",
+      "map_link": "https://www.google.com/maps/place/data=!3m1!4b1!4m2!3m1!1s0x8818fdcfcb5228e7:0x385174813fa051ac",
+      "original_image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=Xkbiry_92wSPqtm6OYNbcw&cb_client=search.gws-prod.gps&w=408&h=240&yaw=18.110313&pitch=0&thumbfov=100",
+      "image": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npCAjAsLpkEO4DvVSrQMD-jGQCxJ8mR6ICuFEGzOzEZO1CMhbjI-PHElfCZCM6xDwB98_e02Xivjd2gZ5xguh-niHSH9FQEE6qByogveky1K4imJCdo54QV8kGtbejtn5t4ih6cMW-o6yyx=w97-h92-k-no",
+      "thumbnail": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=Xkbiry_92wSPqtm6OYNbcw&cb_client=search.gws-prod.gps&w=86&h=86&yaw=18.110313&pitch=0&thumbfov=100",
+      "image_url": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npCAjAsLpkEO4DvVSrQMD-jGQCxJ8mR6ICuFEGzOzEZO1CMhbjI-PHElfCZCM6xDwB98_e02Xivjd2gZ5xguh-niHSH9FQEE6qByogveky1K4imJCdo54QV8kGtbejtn5t4ih6cMW-o6yyx=w97-h92-k-no",
+      "rank": 2
+    },
+    {
+      "title": "Pacific Coast Home Services",
+      "display_link": "pc-homeservices.com",
+      "link": "https://pc-homeservices.com/",
+      "address": "63 Bovet Rd #160, San Mateo, CA 94402",
+      "phone": "+16504924340",
+      "open_hours": {
+        "Thursday": "Open 24 hours",
+        "Friday": "Open 24 hours",
+        "Saturday": "Open 24 hours",
+        "Sunday": "Open 24 hours",
+        "Monday": "Open 24 hours",
+        "Tuesday": "Open 24 hours",
+        "Wednesday": "Open 24 hours"
+      },
+      "category": [
+        {
+          "id": "hvac_contractor",
+          "title": "HVAC contractor"
+        },
+        {
+          "id": "air_conditioning_contractor",
+          "title": "Air conditioning contractor"
+        },
+        {
+          "id": "air_duct_cleaning_service",
+          "title": "Air duct cleaning service"
+        },
+        {
+          "id": "bathroom_remodeler",
+          "title": "Bathroom remodeler"
+        },
+        {
+          "id": "electrical_installation_service",
+          "title": "Electrical installation service"
+        },
+        {
+          "id": "electrician",
+          "title": "Electrician"
+        },
+        {
+          "id": "furnace_repair_service",
+          "title": "Furnace repair service"
+        },
+        {
+          "id": "heating_contractor",
+          "title": "Heating contractor"
+        },
+        {
+          "id": "kitchen_remodeler",
+          "title": "Kitchen remodeler"
+        },
+        {
+          "id": "plumber",
+          "title": "Plumber"
+        }
+      ],
+      "tags": [
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_installation",
+          "key_title": "Installation service",
+          "value": 1,
+          "value_title": "Has installation service",
+          "value_title_short": "Installation service"
+        }
+      ],
+      "rating": 4.5,
+      "reviews_cnt": 85,
+      "latitude": 37.550309999999996,
+      "longitude": -122.3139879,
+      "claimed": true,
+      "fid": "0x808f9e5955f7c3ad:0x29842d89dbfae818",
+      "map_id_encoded": "ChIJrcP3VVmej4ARGOj624kthCk",
+      "map_id": "0x808f9e5955f7c3ad:0x29842d89dbfae818",
+      "map_link": "https://www.google.com/maps/place/data=!3m1!4b1!4m2!3m1!1s0x808f9e5955f7c3ad:0x29842d89dbfae818",
+      "original_image": "https://lh3.googleusercontent.com/p/AF1QipPmaPKvzpjdt3AquvBZXFAyWBqMXwoEftfLSVfm=w426-h240-k-no",
+      "image": "https://lh3.googleusercontent.com/p/AF1QipPmaPKvzpjdt3AquvBZXFAyWBqMXwoEftfLSVfm=w163-h92-k-no",
+      "thumbnail": "https://lh3.googleusercontent.com/p/AF1QipPmaPKvzpjdt3AquvBZXFAyWBqMXwoEftfLSVfm=w152-h86-k-no",
+      "icon": "https://lh4.googleusercontent.com/-xOO-Jg6OruI/AAAAAAAAAAI/AAAAAAAAAAA/r0vQRSXfSRw/s44-p-k-no-ns-nd/photo.jpg",
+      "image_url": "https://lh3.googleusercontent.com/p/AF1QipPmaPKvzpjdt3AquvBZXFAyWBqMXwoEftfLSVfm=w163-h92-k-no",
+      "rank": 3
+    },
+    {
+      "title": "Cloud Mechanical Heating & AC",
+      "display_link": "cloudmechanicalhvac.com",
+      "link": "http://www.cloudmechanicalhvac.com/",
+      "address": "415 Birch Ave, San Mateo, CA 94402",
+      "phone": "+16503121416",
+      "open_hours": {
+        "Thursday": "7\u202fAM\u20138\u202fPM",
+        "Friday": "7\u202fAM\u20138\u202fPM",
+        "Saturday": "7\u202fAM\u20138\u202fPM",
+        "Sunday": "7\u202fAM\u20138\u202fPM",
+        "Monday": "7\u202fAM\u20138\u202fPM",
+        "Tuesday": "7\u202fAM\u20138\u202fPM",
+        "Wednesday": "7\u202fAM\u20138\u202fPM"
+      },
+      "category": [
+        {
+          "id": "hvac_contractor",
+          "title": "HVAC contractor"
+        },
+        {
+          "id": "air_conditioning_contractor",
+          "title": "Air conditioning contractor"
+        }
+      ],
+      "tags": [
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_installation",
+          "key_title": "Installation service",
+          "value": 1,
+          "value_title": "Has installation service",
+          "value_title_short": "Installation service"
+        },
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_repair",
+          "key_title": "Repair services",
+          "value": 1,
+          "value_title": "Has repair services",
+          "value_title_short": "Repair services"
+        }
+      ],
+      "rating": 5,
+      "reviews_cnt": 32,
+      "latitude": 37.5600832,
+      "longitude": -122.3142673,
+      "claimed": false,
+      "fid": "0x808f9e619f895281:0x10097ffc6d4e7355",
+      "map_id_encoded": "ChIJgVKJn2Gej4ARVXNObfx_CRA",
+      "map_id": "0x808f9e619f895281:0x10097ffc6d4e7355",
+      "map_link": "https://www.google.com/maps/place/data=!3m1!4b1!4m2!3m1!1s0x808f9e619f895281:0x10097ffc6d4e7355",
+      "original_image": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=fZfbMNFb0f8iT8mJ9I_XCg&cb_client=search.gws-prod.gps&w=408&h=240&yaw=315.2096&pitch=0&thumbfov=100",
+      "image": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npL6SohsZJJPFHUrr8TD5HetVsBPHWaNLUzDIPsMGMDklaGZy-KjB8ALzMBDl3HqDFwUd1rIK2zHF7EKS6pDoEFUdiWq5XVxnjEU15NQL9rEBaam9xqL_1YT0vDkmv8O1lDEE81=w122-h92-k-no",
+      "thumbnail": "https://streetviewpixels-pa.googleapis.com/v1/thumbnail?panoid=fZfbMNFb0f8iT8mJ9I_XCg&cb_client=search.gws-prod.gps&w=86&h=86&yaw=315.2096&pitch=0&thumbfov=100",
+      "image_url": "https://lh3.googleusercontent.com/gps-cs-s/AC9h4npL6SohsZJJPFHUrr8TD5HetVsBPHWaNLUzDIPsMGMDklaGZy-KjB8ALzMBDl3HqDFwUd1rIK2zHF7EKS6pDoEFUdiWq5XVxnjEU15NQL9rEBaam9xqL_1YT0vDkmv8O1lDEE81=w122-h92-k-no",
+      "rank": 4
+    },
+    {
+      "title": "Air Temp Co",
+      "display_link": "airtempco.com",
+      "link": "https://www.airtempco.com/",
+      "address": "1835 Hamlet St, San Mateo, CA 94403",
+      "phone": "+16505911004",
+      "open_hours": {
+        "Thursday": "7\u202fAM\u20136\u202fPM",
+        "Friday": "7\u202fAM\u20136\u202fPM",
+        "Saturday": "9\u202fAM\u20133\u202fPM",
+        "Sunday": "Closed",
+        "Monday": "7\u202fAM\u20136\u202fPM",
+        "Tuesday": "7\u202fAM\u20136\u202fPM",
+        "Wednesday": "7\u202fAM\u20136\u202fPM"
+      },
+      "category": [
+        {
+          "id": "air_conditioning_repair_service",
+          "title": "Air conditioning repair service"
+        },
+        {
+          "id": "air_conditioning_contractor",
+          "title": "Air conditioning contractor"
+        },
+        {
+          "id": "heating_contractor",
+          "title": "Heating contractor"
+        },
+        {
+          "id": "hvac_contractor",
+          "title": "HVAC contractor"
+        }
+      ],
+      "tags": [
+        {
+          "group_id": "accessibility",
+          "group_title": "Accessibility",
+          "key_id": "/geo/type/establishment_poi/has_wheelchair_accessible_parking",
+          "key_title": "Wheelchair accessible parking lot",
+          "value": 1,
+          "value_title": "Has wheelchair accessible parking lot",
+          "value_title_short": "Wheelchair accessible parking lot"
+        },
+        {
+          "group_id": "accessibility",
+          "group_title": "Accessibility",
+          "key_id": "/geo/type/establishment_poi/has_wheelchair_accessible_restroom",
+          "key_title": "Wheelchair accessible restroom",
+          "value": 0,
+          "value_title": "No wheelchair accessible restroom",
+          "value_title_short": "No wheelchair accessible restroom"
+        },
+        {
+          "group_id": "accessibility",
+          "group_title": "Accessibility",
+          "key_id": "/geo/type/establishment_poi/has_wheelchair_accessible_seating",
+          "key_title": "Wheelchair accessible seating",
+          "value": 0,
+          "value_title": "No wheelchair accessible seating",
+          "value_title_short": "No wheelchair accessible seating"
+        },
+        {
+          "group_id": "offerings",
+          "group_title": "Offerings",
+          "key_id": "/geo/type/establishment_poi/has_service_repair",
+          "key_title": "Repair services",
+          "value": 1,
+          "value_title": "Has repair services",
+          "value_title_short": "Repair services"
+        },
+        {
+          "group_id": "amenities",
+          "group_title": "Amenities",
+          "key_id": "/geo/type/establishment_poi/has_restroom_unisex",
+          "key_title": "Gender-neutral restroom",
+          "value": 1,
+          "value_title": "Has gender-neutral restroom",
+          "value_title_short": "Gender-neutral restroom"
+        },
+        {
+          "group_id": "planning",
+          "group_title": "Planning",
+          "key_id": "/geo/type/establishment/requires_appointments",
+          "key_title": "Appointment required",
+          "value": 1,
+          "value_title": "Appointment required",
+          "value_title_short": "Appointment required"
+        },
+        {
+          "group_id": "payments",
+          "group_title": "Payments",
+          "key_id": "/geo/type/establishment_poi/pay_credit_card",
+          "key_title": "Credit cards",
+          "value": 1,
+          "value_title": "Accepts credit cards",
+          "value_title_short": "Credit cards"
+        },
+        {
+          "group_id": "payments",
+          "group_title": "Payments",
+          "key_id": "/geo/type/establishment_poi/pay_credit_card_types_accepted",
+          "key_title": "Credit cards"
+        }
+      ],
+      "rating": 4,
+      "reviews_cnt": 5,
+      "latitude": 37.554797,
+      "longitude": -122.29465099999999,
+      "claimed": true,
+      "fid": "0x808f9e76e62918cd:0xd2c188f98e3e6549",
+      "map_id_encoded": "ChIJzRgp5naej4ARSWU-jvmIwdI",
+      "map_id": "0x808f9e76e62918cd:0xd2c188f98e3e6549",
+      "map_link": "https://www.google.com/maps/place/data=!3m1!4b1!4m2!3m1!1s0x808f9e76e62918cd:0xd2c188f98e3e6549",
+      "original_image": "https://lh3.googleusercontent.com/p/AF1QipNiaG2JXUGb1_72VX87McYeUXU7ZSUybciL6DJa=w408-h544-k-no",
+      "image": "https://lh3.googleusercontent.com/p/AF1QipNiaG2JXUGb1_72VX87McYeUXU7ZSUybciL6DJa=w80-h106-k-no",
+      "thumbnail": "https://lh3.googleusercontent.com/p/AF1QipNiaG2JXUGb1_72VX87McYeUXU7ZSUybciL6DJa=w86-h114-k-no",
+      "icon": "https://lh3.googleusercontent.com/-qKb990OUFmo/AAAAAAAAAAI/AAAAAAAAAAA/Ll2WftFlG2E/s44-p-k-no-ns-nd/photo.jpg",
+      "image_url": "https://lh3.googleusercontent.com/p/AF1QipNiaG2JXUGb1_72VX87McYeUXU7ZSUybciL6DJa=w80-h106-k-no",
+      "rank": 5
+    }
+  ]
+}
