@@ -159,9 +159,9 @@ async def check_local_business_ranking(
 
 
 async def _demo() -> None:
-    domain = "sflaundromat.com"
-    location = "San Francisco, CA"
-    query = "laundromat"
+    domain = "hemisplumbing.com"
+    location = "San Mateo, CA"
+    query = "plumber"
 
     print(f"Checking ranking for {domain!r} in {location!r} for query {query!r}...")
     

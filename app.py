@@ -92,6 +92,7 @@ class DomainSearchRequest(BaseModel):
 
 class GetPurchasedDomainsRequest(BaseModel):
     user_email: str = Field(..., description="Email of the user requesting purchased domains")
+    search_term: Optional[str] = Field(None, description="Optional search term to filter domains by name")
 
 class DomainSearchResult(BaseModel):
     domain: str
@@ -1166,7 +1167,7 @@ async def get_purchased_domains_endpoint(payload: GetPurchasedDomainsRequest):
     
     try:
         nc = NamecheapClient()
-        purchased_domains = nc.get_purchased_domains()
+        purchased_domains = nc.get_purchased_domains(search_term=payload.search_term)
         
         # Format the response to match the domain search structure
         formatted_domains = []

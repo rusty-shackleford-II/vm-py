@@ -400,34 +400,81 @@ class NamecheapClient:
     #         "Missing Cloudflare configuration. Set CLOUDFLARE_API_TOKEN to auto-detect NS, or provide CLOUDFLARE_NS1/NS2."
     #     )
 
-    def get_purchased_domains(self) -> List[Dict[str, Any]]:
+    def get_purchased_domains(self, search_term: Optional[str] = None, max_results: int = 1000) -> List[Dict[str, Any]]:
         """
         Get list of purchased domains from Namecheap account using namecheap.domains.getList.
+        Handles pagination automatically to fetch all domains or search results.
+        
+        Args:
+            search_term: Optional search term to filter domains by name (searches ALL domains)
+            max_results: Maximum number of results to return (default 1000, set to -1 for unlimited)
+            
         Returns list of { domain: str, expiration_date: str, auto_renew: bool, raw: dict }
         """
-        params = {
-            "ApiUser": str(self.api_user),
-            "ApiKey": str(self.api_key),
-            "UserName": str(self.username),
-            "ClientIp": str(self.client_ip),
-            "Command": "namecheap.domains.getList",
-        }
+        all_domains = []
+        page = 1
+        page_size = 100  # Maximum allowed by Namecheap API
+        
+        while True:
+            params = {
+                "ApiUser": str(self.api_user),
+                "ApiKey": str(self.api_key),
+                "UserName": str(self.username),
+                "ClientIp": str(self.client_ip),
+                "Command": "namecheap.domains.getList",
+                "PageSize": str(page_size),
+                "Page": str(page),
+            }
+            
+            # Add search term if provided - this searches ALL domains, not just current page
+            if search_term and search_term.strip():
+                params["SearchTerm"] = search_term.strip()
 
-        try:
-            resp = requests.get(self.base_url, params=params, timeout=30)
-            resp.raise_for_status()
-        except requests.RequestException as exc:
-            raise RuntimeError(f"Namecheap domains.getList failed: {exc}") from exc
+            try:
+                resp = requests.get(self.base_url, params=params, timeout=30)
+                resp.raise_for_status()
+            except requests.RequestException as exc:
+                raise RuntimeError(f"Namecheap domains.getList failed: {exc}") from exc
+
+            if self.debug:
+                safe_params = dict(params)
+                if "ApiKey" in safe_params:
+                    safe_params["ApiKey"] = "***REDACTED***"
+                print(f"[NC DEBUG] domains.getList page {page} params:", safe_params)
+                print(f"[NC DEBUG] domains.getList page {page} XML:")
+                print(resp.text)
+
+            page_domains = self._parse_domains_list_response(resp.text)
+            
+            if not page_domains:
+                # No more domains on this page, we're done
+                break
+                
+            all_domains.extend(page_domains)
+            
+            # Check if we've hit our max results limit
+            if max_results > 0 and len(all_domains) >= max_results:
+                all_domains = all_domains[:max_results]
+                break
+            
+            # If we got fewer domains than the page size, we've reached the end
+            if len(page_domains) < page_size:
+                break
+                
+            page += 1
+            
+            # Safety check to prevent infinite loops
+            if page > 100:  # With 100 domains per page, this covers 10,000 domains
+                if self.debug:
+                    print(f"[NC DEBUG] Stopped pagination at page {page} for safety")
+                break
 
         if self.debug:
-            safe_params = dict(params)
-            if "ApiKey" in safe_params:
-                safe_params["ApiKey"] = "***REDACTED***"
-            print("[NC DEBUG] domains.getList params:", safe_params)
-            print("[NC DEBUG] domains.getList XML:")
-            print(resp.text)
+            print(f"[NC DEBUG] Total domains fetched: {len(all_domains)} across {page-1} pages")
+            if search_term:
+                print(f"[NC DEBUG] Search term '{search_term}' found {len(all_domains)} matches")
 
-        return self._parse_domains_list_response(resp.text)
+        return all_domains
 
     def _parse_domains_list_response(self, xml_text: str) -> List[Dict[str, Any]]:
         try:

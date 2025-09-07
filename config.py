@@ -1,5 +1,10 @@
 from decouple import config
 
+
+
+BRIGHTDATA_API_KEY = config("BRIGHTDATA_API_KEY")
+
+
 # GitHub configuration
 GITHUB_USERNAME = config("GITHUB_USERNAME")
 GITHUB_TOKEN = config("GITHUB_TOKEN")

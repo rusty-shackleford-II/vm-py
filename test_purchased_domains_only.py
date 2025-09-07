@@ -18,6 +18,7 @@ try:
     import config
 except ImportError as e:
     print(f"❌ Import error: {e}")
+    print("Make sure you have python-decouple installed: pip install python-decouple")
     sys.exit(1)
 
 
@@ -34,9 +35,15 @@ def main():
     print()
     
     try:
-        # Initialize client with debug enabled
+        # Initialize client with debug enabled using config.py
         print("🔧 Initializing Namecheap client...")
-        client = NamecheapClient(debug=True)
+        client = NamecheapClient(
+            api_user=config.NAMECHEAP_API_USER,
+            api_key=config.NAMECHEAP_API_KEY,
+            username=config.NAMECHEAP_USERNAME,
+            client_ip=config.CLIENT_IP,
+            debug=True
+        )
         print("✅ Client initialized successfully")
         print(f"   Base URL: {client.base_url}")
         print()

@@ -1,0 +1,198 @@
+{
+  "businessName": "J&J Air Conditioning",
+  "logoUrl": "/logo.png",
+  "header": {
+    "showLogo": true,
+    "colors": {
+      "brandText": "#111827",
+      "navText": "#374151"
+    }
+  },
+  "hero": {
+    "backgroundImageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80",
+    "headline": "Reliable HVAC Solutions for Your Comfort",
+    "subheadline": "Expert heating, cooling, and ventilation services in San Mateo County",
+    "cta": {
+      "label": "Request a Quote",
+      "href": "#contact"
+    },
+    "phone": "(408) 920-0662",
+    "colors": {
+      "headline": "#111827",
+      "subheadline": "#4b5563",
+      "ctaText": "#ffffff",
+      "ctaBackground": "#10B981"
+    }
+  },
+  "about": {
+    "title": "About J&J Air Conditioning",
+    "description": "J&J Air Conditioning is a trusted HVAC contractor providing comprehensive heating, cooling, and ventilation services for residential and commercial clients in the San Francisco Bay Area. With over 45 years of experience, we are committed to delivering reliable and efficient solutions to ensure your comfort and satisfaction.",
+    "statistics": [
+      {
+        "name": "Years of Experience",
+        "value": "45+",
+        "icon": "AcademicCapIcon"
+      },
+      {
+        "name": "Satisfied Clients",
+        "value": "1000+",
+        "icon": "UsersIcon"
+      },
+      {
+        "name": "Services Offered",
+        "value": "6",
+        "icon": "BuildingOfficeIcon"
+      }
+    ],
+    "features": [
+      "Residential HVAC Services",
+      "Commercial HVAC Services",
+      "Expert Technicians",
+      "Quality Workmanship",
+      "Reliable and Efficient",
+      "Customer Satisfaction Guaranteed"
+    ],
+    "images": [
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional service consultation"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional tools and workspace"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional team collaboration"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Modern service vehicle"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional installation and repair"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional working on installation"
+      }
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional solutions tailored to your needs",
+    "items": [
+      {
+        "id": "service1",
+        "title": "Air Conditioning Installation",
+        "description": "Professional installation of new air conditioning systems for residential and commercial properties.",
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80",
+        "alt": "Air conditioning installation"
+      },
+      {
+        "id": "service2",
+        "title": "Heating System Repair",
+        "description": "Expert repair services for all types of heating systems, ensuring efficient and reliable performance.",
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80",
+        "alt": "Heating system repair"
+      },
+      {
+        "id": "service3",
+        "title": "HVAC Maintenance",
+        "description": "Regular maintenance services to keep your HVAC systems running smoothly and prevent costly breakdowns.",
+        "imageUrl": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=600&q=80",
+        "alt": "HVAC maintenance"
+      },
+      {
+        "id": "service4",
+        "title": "Duct Cleaning",
+        "description": "Thorough duct cleaning services to improve air quality and system efficiency.",
+        "imageUrl": "https://images.unsplash.com/photo-1532629338006-67756d8590e8?auto=format&fit=crop&w=600&q=80",
+        "alt": "Duct cleaning service"
+      }
+    ]
+  },
+  "businessBenefits": {
+    "title": "Why Choose J&J Air Conditioning",
+    "items": [
+      {
+        "title": "Experienced Technicians",
+        "description": "Highly trained and certified HVAC professionals."
+      },
+      {
+        "title": "Quality Service",
+        "description": "Reliable and efficient solutions tailored to your needs."
+      },
+      {
+        "title": "Competitive Pricing",
+        "description": "Affordable rates without compromising on quality."
+      },
+      {
+        "title": "Customer Satisfaction",
+        "description": "Dedicated to ensuring your complete satisfaction."
+      },
+      {
+        "title": "Fast Response Times",
+        "description": "Prompt and reliable service when you need it most."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Don't just take our word for it. Here's what our satisfied clients have to say about our professional services.",
+    "items": [
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocKcX55i2v7SXRmsa9yBSRvyKTNOLlqV2CbzJ4LGknlrKwDkPA=s120-c-rp-mo-br100",
+        "authorName": "Martha Moore",
+        "rating": 5,
+        "reviewDate": "2 months ago",
+        "reviewText": null
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUhBEl2PGXPb3vgRJrYU0Sx-KSOiO8vxA5vWyUtpacmlbl4WRa1Pw=s120-c-rp-mo-ba4-br100",
+        "authorName": "Javier CRUZ",
+        "rating": 5,
+        "reviewDate": "2 years ago",
+        "reviewText": null
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWdnIO1xT_XjvKN0UpkKLIdEHy4ifb_f8VEBU64Nde-sXquQmEVig=s120-c-rp-mo-ba3-br100",
+        "authorName": "Leo Valverde",
+        "rating": 5,
+        "reviewDate": "2 years ago",
+        "reviewText": null
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us today. We're here to help with all your HVAC needs.",
+    "address": "1086 N 11th St, San Jose, CA 95112",
+    "phone": "(408) 920-0662",
+    "email": "info@jjair.com",
+    "mapEmbedUrl": "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=1086+N+11th+St,+San+Jose,+CA+95112&t=&z=14&ie=UTF8&iwloc=B&output=embed",
+    "social": {
+      "facebook": "https://facebook.com/jjair",
+      "twitter": "",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": "",
+      "tiktok": "",
+      "yelp": "https://www.yelp.com/biz/j-and-j-air-conditioning-san-jose-2"
+    }
+  },
+  "footer": {
+    "socialLinks": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/jjair"
+      },
+      {
+        "platform": "yelp",
+        "url": "https://www.yelp.com/biz/j-and-j-air-conditioning-san-jose-2"
+      }
+    ],
+    "copyrightText": "© 2025 J&J Air Conditioning - All Rights Reserved."
+  }
+}

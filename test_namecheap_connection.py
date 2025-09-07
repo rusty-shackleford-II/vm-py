@@ -23,15 +23,11 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 try:
     from clients.namecheap_client import NamecheapClient
-    from config import (
-        NAMECHEAP_API_USER,
-        NAMECHEAP_API_KEY,
-        NAMECHEAP_USERNAME,
-        CLIENT_IP
-    )
+    import config
 except ImportError as e:
     print(f"❌ Import error: {e}")
     print("Make sure you're running this script from the vm-py directory")
+    print("Also ensure python-decouple is installed: pip install python-decouple")
     sys.exit(1)
 
 
@@ -47,10 +43,10 @@ def check_environment_variables() -> Dict[str, Any]:
     print_header("ENVIRONMENT VARIABLE CHECK")
     
     required_vars = {
-        "NAMECHEAP_API_USER": NAMECHEAP_API_USER,
-        "NAMECHEAP_API_KEY": NAMECHEAP_API_KEY,
-        "NAMECHEAP_USERNAME": NAMECHEAP_USERNAME,
-        "CLIENT_IP": CLIENT_IP,
+        "NAMECHEAP_API_USER": config.NAMECHEAP_API_USER,
+        "NAMECHEAP_API_KEY": config.NAMECHEAP_API_KEY,
+        "NAMECHEAP_USERNAME": config.NAMECHEAP_USERNAME,
+        "CLIENT_IP": config.CLIENT_IP,
     }
     
     results = {}
@@ -85,8 +81,14 @@ def test_client_initialization() -> NamecheapClient:
     print_header("CLIENT INITIALIZATION TEST")
     
     try:
-        # Test with debug enabled to see API calls
-        client = NamecheapClient(debug=True)
+        # Test with debug enabled to see API calls using config.py
+        client = NamecheapClient(
+            api_user=config.NAMECHEAP_API_USER,
+            api_key=config.NAMECHEAP_API_KEY,
+            username=config.NAMECHEAP_USERNAME,
+            client_ip=config.CLIENT_IP,
+            debug=True
+        )
         print("✅ NamecheapClient initialized successfully")
         
         # Print client configuration (without sensitive data)
@@ -198,7 +200,7 @@ def test_api_connectivity(client: NamecheapClient) -> Dict[str, Any]:
         if "ip" in error_str and "whitelist" in error_str:
             print("💡 Suggestion: Your IP address may not be whitelisted in Namecheap")
             print("   Go to Namecheap Dashboard > Profile > Tools > Namecheap API Access")
-            print(f"   Add your current IP: {CLIENT_IP}")
+            print(f"   Add your current IP: {config.CLIENT_IP}")
         elif "credentials" in error_str or "authentication" in error_str:
             print("💡 Suggestion: Check your API credentials")
             print("   Verify NAMECHEAP_API_USER, NAMECHEAP_API_KEY, and NAMECHEAP_USERNAME")
