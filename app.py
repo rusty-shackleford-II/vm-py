@@ -9,8 +9,10 @@ import shutil
 import json
 import subprocess
 from pathlib import Path
+import traceback
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # Domain search
@@ -18,6 +20,30 @@ try:
     from clients.namecheap_client import NamecheapClient  # type: ignore
 except Exception:
     NamecheapClient = None  # type: ignore
+
+# Business research components
+# Capture import errors and diagnostics
+BUSINESS_IMPORT_ERROR: Optional[str] = None
+BUSINESS_IMPORT_TRACEBACK: Optional[str] = None
+
+try:
+    from google_searcher import GoogleSearcher
+    from google_maps_searcher import GoogleMapsBusinessSearcher
+    from business_review_searcher import BusinessReviewSearcher
+    from clients.gemini_client import GeminiClient
+    from client_business_researcher import ClientBusinessResearcher
+    import config
+except Exception as e:
+    BUSINESS_IMPORT_ERROR = str(e)
+    BUSINESS_IMPORT_TRACEBACK = traceback.format_exc()
+    print(f"Warning: Business research dependencies not available: {e}")
+    # Traceback helps identify exactly which import failed (often due to env/config)
+    print(BUSINESS_IMPORT_TRACEBACK)
+    GoogleSearcher = None
+    GoogleMapsBusinessSearcher = None
+    BusinessReviewSearcher = None
+    GeminiClient = None
+    ClientBusinessResearcher = None
 
 # Deployment components
 try:
@@ -27,7 +53,6 @@ try:
     from deploy_scripts.create_cloudflare_pages import create_cloudflare_pages
     from deploy_scripts.add_domain_to_cloudflare import add_domain_to_cloudflare_with_migration
     from deploy_scripts.add_custom_domain import add_custom_domain_to_pages_project
-    from geocoding_service import get_coordinates
     from site_sanitizer import sanitize_site_json
     from config import (
         GITHUB_USERNAME,
@@ -81,11 +106,19 @@ class DeployRequest(BaseModel):
 
 
 class ResearchRequest(BaseModel):
-    business_name: str
-    location: str
-    business_category: str
-    language: Optional[str] = None
-    description: Optional[str] = None
+    business_name: str = Field(..., description="Name of the business to research")
+    business_location: str = Field(..., description="Location/address of the business")
+    business_description: Optional[str] = Field(None, description="Optional description or context about the business")
+    research_id: str = Field(..., description="Unique identifier for this research session")
+
+
+class ResearchResponse(BaseModel):
+    success: bool
+    site_json: Optional[Dict[str, Any]] = None
+    business_info: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+    upload_path: Optional[str] = None
+    download_url: Optional[str] = None
 class DomainSearchRequest(BaseModel):
     query: str = Field(..., description="Base query or full domain to search")
     tlds: Optional[List[str]] = Field(default=None, description="Optional list of TLDs")
@@ -127,6 +160,112 @@ class DeleteRequest(BaseModel):
         default=True, description="Whether to cancel registrar domain now"
     )
     idempotency_key: Optional[str] = None
+
+
+# ------------------------------
+# Template and research functionality
+# ------------------------------
+
+class TemplateLoader:
+    """Loads template schemas and example site.json files"""
+    
+    def __init__(self):
+        # Find template directory
+        self.project_root = Path(__file__).resolve().parent
+        self.template_paths = [
+            self.project_root / ".." / "vm-web" / "templates",
+            self.project_root / "vm-web" / "templates",
+            self.project_root / "launchpad" / "vm-web" / "templates",
+        ]
+        
+        self.template_dir = None
+        for path in self.template_paths:
+            if path.exists():
+                self.template_dir = path
+                break
+                
+        if not self.template_dir:
+            print("Warning: Template directory not found")
+    
+    def load_template_files(self, template_name: str) -> Dict[str, Any]:
+        """Load schema.json and site.json for a given template"""
+        if not self.template_dir:
+            raise HTTPException(status_code=500, detail="Template directory not available")
+        
+        template_path = self.template_dir / template_name
+        if not template_path.exists():
+            raise HTTPException(status_code=404, detail=f"Template '{template_name}' not found")
+        
+        # Load schema.json
+        schema_path = template_path / "data" / "schema.json"
+        schema = {}
+        if schema_path.exists():
+            with open(schema_path, 'r') as f:
+                schema = json.load(f)
+        
+        # Load example site.json
+        site_json_path = template_path / "data" / "site.json"
+        example_site_json = {}
+        if site_json_path.exists():
+            with open(site_json_path, 'r') as f:
+                example_site_json = json.load(f)
+        
+        return {
+            "schema": schema,
+            "example_site_json": example_site_json,
+            "template_path": str(template_path)
+        }
+
+
+
+
+# Initialize global instances
+template_loader = TemplateLoader()
+client_business_researcher = None
+
+def _log_env_and_import_diagnostics() -> None:
+    """Log helpful diagnostics when research components are unavailable.
+
+    - Prints which required env vars are missing (names only, not values)
+    - Prints any captured import traceback for fast root-cause analysis
+    """
+    print("\n[DIAGNOSTICS] ClientBusinessResearcher unavailable - running environment/import checks...")
+    # Known required env var names as referenced in config.py
+    required_keys = [
+        "BRIGHTDATA_API_KEY", "BRIGHTDATA_API_ZONE",
+        "GITHUB_USERNAME", "GITHUB_TOKEN",
+        "REMOTE_TEMPLATE_REPO", "LOCAL_REPO_PATH",
+        "NAMECHEAP_API_USER", "NAMECHEAP_API_KEY", "CLIENT_IP", "NAMECHEAP_USERNAME",
+        "SUPABASE_ID", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY",
+        "GOOGLE_MAPS_API_KEY",
+        "SPACESHIP_API_KEY", "SPACESHIP_API_SECRET",
+    ]
+    # Gemini keys GEMINI_API_KEY_1..9
+    required_keys.extend([f"GEMINI_API_KEY_{i}" for i in range(1, 10)])
+
+    missing = [k for k in required_keys if not os.getenv(k)]
+    if missing:
+        print(f"[DIAGNOSTICS] Missing environment variables ({len(missing)}): {', '.join(sorted(missing))}")
+    else:
+        print("[DIAGNOSTICS] All known required environment variables appear to be set.")
+
+    print(f"[DIAGNOSTICS] Working directory: {os.getcwd()}")
+    print(f"[DIAGNOSTICS] PYTHONPATH: {os.environ.get('PYTHONPATH', '')}")
+
+    if BUSINESS_IMPORT_ERROR:
+        print(f"[DIAGNOSTICS] Import error: {BUSINESS_IMPORT_ERROR}")
+    if BUSINESS_IMPORT_TRACEBACK:
+        print("[DIAGNOSTICS] Import traceback follows:\n" + BUSINESS_IMPORT_TRACEBACK)
+
+def get_client_business_researcher():
+    """Get or create client business researcher instance"""
+    global client_business_researcher
+    if client_business_researcher is None:
+        if ClientBusinessResearcher is None:
+            _log_env_and_import_diagnostics()
+            raise HTTPException(status_code=500, detail="ClientBusinessResearcher not available")
+        client_business_researcher = ClientBusinessResearcher()
+    return client_business_researcher
 
 
 # ------------------------------
@@ -410,6 +549,56 @@ def transform_site_json_structure(site_data: Dict[str, Any]) -> Dict[str, Any]:
                 "mapEmbedUrl": site_data.get("contactMapEmbedUrl", "")
             }
     
+    # Transform business hours structure
+    business_hours_keys = ["businessHoursEnabled", "mondayOpen", "mondayClose", "mondayClosed", 
+                          "tuesdayOpen", "tuesdayClose", "tuesdayClosed", "wednesdayOpen", "wednesdayClose", "wednesdayClosed",
+                          "thursdayOpen", "thursdayClose", "thursdayClosed", "fridayOpen", "fridayClose", "fridayClosed",
+                          "saturdayOpen", "saturdayClose", "saturdayClosed", "sundayOpen", "sundayClose", "sundayClosed"]
+    if any(key in site_data for key in business_hours_keys) or (site_data.get("contact", {}).get("businessHours")):
+        if "contact" not in transformed:
+            transformed["contact"] = {}
+        
+        # Handle flat business hours fields (from editor)
+        if site_data.get("businessHoursEnabled"):
+            business_hours = {}
+            days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            day_keys = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+            
+            def convert_to_12_hour(time_24h: str) -> str:
+                """Convert 24-hour time format to 12-hour format"""
+                if not time_24h:
+                    return ""
+                
+                try:
+                    hours, minutes = time_24h.split(':')
+                    hour = int(hours)
+                    ampm = 'PM' if hour >= 12 else 'AM'
+                    hour_12 = hour % 12 or 12
+                    return f"{hour_12}:{minutes} {ampm}"
+                except (ValueError, IndexError):
+                    return time_24h  # Return original if parsing fails
+            
+            for day, day_key in zip(days, day_keys):
+                closed_key = f"{day_key}Closed"
+                open_key = f"{day_key}Open"
+                close_key = f"{day_key}Close"
+                
+                if site_data.get(closed_key):
+                    business_hours[day] = "closed"
+                elif site_data.get(open_key) and site_data.get(close_key):
+                    # Convert from 24-hour format (editor) to 12-hour format (display)
+                    business_hours[day] = {
+                        "open": convert_to_12_hour(site_data[open_key]),
+                        "close": convert_to_12_hour(site_data[close_key])
+                    }
+            
+            if business_hours:
+                transformed["contact"]["businessHours"] = business_hours
+                print(f"[DEPLOY] Transformed business hours from flat structure")
+        elif "contact" in site_data and isinstance(site_data["contact"], dict) and "businessHours" in site_data["contact"]:
+            # Handle existing structured business hours
+            transformed["contact"]["businessHours"] = site_data["contact"]["businessHours"]
+    
     # Transform testimonials items to match TestimonialItem type
     if "testimonials" in site_data and isinstance(site_data["testimonials"], list):
         if "testimonials" not in transformed:
@@ -627,12 +816,287 @@ async def db_soft_delete_site(site_id: str) -> None:
 
 
 # ------------------------------
+# Helper functions
+# ------------------------------
+
+async def upload_site_json_to_bucket(site_json: Dict[str, Any], research_id: str) -> tuple[Optional[str], Optional[str]]:
+    """
+    Upload site.json data to Supabase bucket
+    
+    Args:
+        site_json: The site.json dictionary to upload
+        research_id: Unique identifier for the research session
+        
+    Returns:
+        Tuple of (upload_path, download_url) or (None, None) if upload fails
+    """
+    if not SupabaseClient:
+        print(f"[UPLOAD] SupabaseClient not available, skipping upload")
+        return None, None
+    
+    try:
+        print(f"[UPLOAD] Uploading site.json to bucket for research ID: {research_id}")
+        
+        # Debug: Check environment variables
+        import config
+        print(f"[UPLOAD] Environment check - SUPABASE_URL exists: {hasattr(config, 'SUPABASE_URL') and bool(getattr(config, 'SUPABASE_URL', None))}")
+        print(f"[UPLOAD] Environment check - SUPABASE_SERVICE_ROLE_KEY exists: {hasattr(config, 'SUPABASE_SERVICE_ROLE_KEY') and bool(getattr(config, 'SUPABASE_SERVICE_ROLE_KEY', None))}")
+        
+        if hasattr(config, 'SUPABASE_URL'):
+            supabase_url = getattr(config, 'SUPABASE_URL', '')
+            print(f"[UPLOAD] SUPABASE_URL (full): {supabase_url}")
+            print(f"[UPLOAD] SUPABASE_URL length: {len(supabase_url)} characters")
+            print(f"[UPLOAD] SUPABASE_URL starts with https://: {supabase_url.startswith('https://')}")
+            print(f"[UPLOAD] SUPABASE_URL ends with .supabase.co: {supabase_url.endswith('.supabase.co')}")
+        else:
+            print(f"[UPLOAD] ❌ SUPABASE_URL not found in config!")
+            
+        if hasattr(config, 'SUPABASE_SERVICE_ROLE_KEY'):
+            service_key = getattr(config, 'SUPABASE_SERVICE_ROLE_KEY', '')
+            print(f"[UPLOAD] SUPABASE_SERVICE_ROLE_KEY length: {len(service_key)} characters")
+            print(f"[UPLOAD] SUPABASE_SERVICE_ROLE_KEY preview: {service_key[:20]}..." if len(service_key) > 20 else f"[UPLOAD] SUPABASE_SERVICE_ROLE_KEY: {service_key}")
+        else:
+            print(f"[UPLOAD] ❌ SUPABASE_SERVICE_ROLE_KEY not found in config!")
+        
+        # Create temporary file for upload
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as temp_file:
+            json.dump(site_json, temp_file, indent=2)
+            temp_file_path = temp_file.name
+        
+        print(f"[UPLOAD] Created temp file: {temp_file_path}")
+        
+        # Upload to vm-sites bucket at public/research/<research_id>/site.json
+        print(f"[UPLOAD] Initializing SupabaseClient for bucket 'vm-sites'")
+        try:
+            sites_client = SupabaseClient(bucket_name="vm-sites")
+            print(f"[UPLOAD] ✅ SupabaseClient initialized successfully")
+        except Exception as init_error:
+            print(f"[UPLOAD] ❌ Failed to initialize SupabaseClient: {init_error}")
+            print(f"[UPLOAD] This usually means environment variables are missing or malformed")
+            raise HTTPException(status_code=500, detail=f"Supabase client initialization failed: {str(init_error)}")
+        
+        upload_path = f"public/research/{research_id}/site.json"
+        
+        print(f"[UPLOAD] Starting file upload to path: {upload_path}")
+        upload_result = sites_client.upload_file(
+            local_path=temp_file_path,
+            remote_path=upload_path
+        )
+        
+        # Clean up temp file
+        os.unlink(temp_file_path)
+        print(f"[UPLOAD] Temp file cleaned up")
+        
+        if upload_result:
+            print(f"[UPLOAD] File upload successful, generating public URL...")
+            # Generate download URL (public URL for the uploaded file)
+            try:
+                download_url = sites_client.get_public_url(upload_path)
+                print(f"[UPLOAD] Successfully uploaded site.json to: {upload_path}")
+                print(f"[UPLOAD] Download URL: {download_url}")
+                return upload_path, download_url
+            except Exception as url_error:
+                print(f"[UPLOAD] Error generating public URL: {str(url_error)}")
+                print(f"[UPLOAD] URL Error type: {type(url_error).__name__}")
+                print(f"[UPLOAD] File was uploaded successfully but URL generation failed")
+                # Return the upload path even if URL generation fails
+                return upload_path, None
+        else:
+            print(f"[UPLOAD] Failed to upload site.json to bucket")
+            return None, None
+            
+    except Exception as e:
+        print(f"[UPLOAD] Upload error: {str(e)}")
+        print(f"[UPLOAD] Error type: {type(e).__name__}")
+        import traceback
+        print(f"[UPLOAD] Full traceback:")
+        print(traceback.format_exc())
+        raise
+
+
+# ------------------------------
 # Task functions
 # ------------------------------
 
-async def research_task(payload: ResearchRequest) -> None:
-    # Long-running research workload placeholder
-    await asyncio.sleep(1)
+async def client_research_task(payload: ResearchRequest) -> Dict[str, Any]:
+    """Research a business and generate site.json using ClientBusinessResearcher"""
+    try:
+        print(f"\n{'='*80}")
+        print(f"[CLIENT_RESEARCH] STARTING RESEARCH TASK")
+        print(f"{'='*80}")
+        print(f"📋 PARAMETERS:")
+        print(f"   • Research ID: {payload.research_id}")
+        print(f"   • Business Name: '{payload.business_name}'")
+        print(f"   • Business Location: '{payload.business_location}'")
+        print(f"   • Business Description: '{payload.business_description or 'Not provided'}'")
+        print(f"   • Timestamp: {__import__('datetime').datetime.now().isoformat()}")
+        print(f"{'='*80}")
+        
+        # Get ClientBusinessResearcher instance
+        researcher = get_client_business_researcher()
+        
+        # Step 1: Gather business data using GBPResearcher
+        print(f"\n🔍 STEP 1: GATHERING GOOGLE BUSINESS DATA")
+        print(f"{'-'*60}")
+        
+        business_data = None
+        google_business_found = False
+        google_business_name = None
+        review_count = 0
+        
+        try:
+            # Get business data including reviews
+            html, maps_data, reviews = await researcher.gbp_researcher.get_business_data(
+                business_name=payload.business_name,
+                business_location=payload.business_location,
+                max_reviews=20
+            )
+            
+            # Check if we found a Google Business Profile
+            if maps_data or reviews or html:
+                google_business_found = True
+                
+                # Extract business name from maps data if available
+                if maps_data and "place" in maps_data:
+                    google_business_name = maps_data["place"].get("name", payload.business_name)
+                else:
+                    google_business_name = payload.business_name
+                
+                # Count reviews
+                if reviews:
+                    review_count = len(reviews)
+                
+                # Log detailed findings
+                print(f"✅ GOOGLE BUSINESS PROFILE FOUND!")
+                print(f"   • Business Name: '{google_business_name}'")
+                print(f"   • HTML Content: {'✅ Retrieved' if html else '❌ Not available'} ({len(html or '')} chars)")
+                print(f"   • Maps Data: {'✅ Retrieved' if maps_data else '❌ Not available'}")
+                print(f"   • Reviews: {review_count} reviews retrieved")
+                
+                # Additional details from maps data
+                if maps_data and "place" in maps_data:
+                    place_data = maps_data["place"]
+                    if place_data.get("phone"):
+                        print(f"   • Phone: {place_data['phone']}")
+                    if place_data.get("rating"):
+                        print(f"   • Rating: {place_data['rating']}")
+                    if place_data.get("review_count"):
+                        print(f"   • Total Reviews on Google: {place_data['review_count']}")
+                    if place_data.get("category"):
+                        categories = [cat.get("title", "") for cat in place_data["category"][:3]]
+                        print(f"   • Categories: {', '.join(categories)}")
+                
+                # Create BusinessData object
+                from gbp_researcher import BusinessData, BusinessReviewsResult
+                
+                # Extract business type from Google Maps categories
+                business_type = "Professional Services"  # Default fallback
+                if maps_data and "place" in maps_data and "category" in maps_data["place"]:
+                    categories = maps_data["place"]["category"]
+                    if categories:
+                        primary_category = categories[0].get("title", "Professional Services")
+                        business_type = primary_category
+                
+                # Extract phone number from maps data
+                phone_number = None
+                if maps_data and "place" in maps_data and "phone" in maps_data["place"]:
+                    phone_number = maps_data["place"]["phone"]
+                
+                business_data = BusinessData(
+                    name=google_business_name,
+                    business_type=business_type,
+                    phone=phone_number,
+                    cleaned_html=html,
+                    maps_data=maps_data
+                )
+                
+                if reviews:
+                    business_data.reviews = BusinessReviewsResult(
+                        business_name=google_business_name,
+                        business_fid="research-fid",
+                        reviews=reviews
+                    )
+                
+            else:
+                print(f"❌ NO GOOGLE BUSINESS PROFILE FOUND")
+                print(f"   • Will generate site using fallback content")
+                print(f"   • Business name: '{payload.business_name}'")
+                print(f"   • Location: '{payload.business_location}'")
+                
+        except Exception as gbp_error:
+            print(f"❌ ERROR DURING GOOGLE BUSINESS RESEARCH: {gbp_error}")
+            print(f"   • Will continue with fallback content generation")
+        
+        # Step 2: Generate complete site.json
+        print(f"\n🏗️ STEP 2: GENERATING SITE.JSON")
+        print(f"{'-'*60}")
+        
+        site_json = await researcher.generate_complete_site_json(
+            business_name=payload.business_name,
+            business_location=payload.business_location,
+            business_description=payload.business_description or "",
+            business_data=business_data,
+            output_file=None,  # Don't save to file, just return the data
+            max_services=4,
+            max_testimonials=6
+        )
+        
+        # Step 3: Upload to bucket
+        print(f"\n📤 STEP 3: UPLOADING TO BUCKET")
+        print(f"{'-'*60}")
+        
+        upload_path = None
+        download_url = None
+        
+        try:
+            upload_path, download_url = await upload_site_json_to_bucket(site_json, payload.research_id)
+            print(f"✅ Successfully uploaded to bucket")
+            print(f"   • Upload path: {upload_path}")
+            print(f"   • Download URL available: {'✅' if download_url else '❌'}")
+        except Exception as upload_error:
+            print(f"❌ Upload to bucket failed: {upload_error}")
+            # Continue without failing the entire research task
+        
+        # Final summary
+        print(f"\n📊 RESEARCH TASK SUMMARY")
+        print(f"{'='*80}")
+        print(f"✅ Research completed successfully for '{payload.business_name}'")
+        print(f"   • Google Business Profile: {'✅ FOUND' if google_business_found else '❌ NOT FOUND'}")
+        if google_business_found:
+            print(f"   • Google Business Name: '{google_business_name}'")
+            print(f"   • Reviews Retrieved: {review_count}")
+        print(f"   • Site.json Generated: ✅")
+        print(f"   • Upload Status: {'✅' if upload_path else '❌'}")
+        print(f"   • Research ID: {payload.research_id}")
+        print(f"{'='*80}\n")
+        
+        return {
+            "success": True,
+            "site_json": site_json,
+            "business_info": {
+                "business_name": payload.business_name,
+                "business_location": payload.business_location,
+                "business_description": payload.business_description,
+                "research_id": payload.research_id,
+                "google_business_found": google_business_found,
+                "google_business_name": google_business_name,
+                "review_count": review_count
+            },
+            "upload_path": upload_path,
+            "download_url": download_url
+        }
+        
+    except Exception as e:
+        print(f"\n❌ RESEARCH TASK FAILED")
+        print(f"{'='*80}")
+        print(f"Error: {e}")
+        print(f"Business: '{payload.business_name}' in '{payload.business_location}'")
+        print(f"Research ID: {payload.research_id}")
+        print(f"{'='*80}\n")
+        return {
+            "success": False,
+            "error": str(e)
+        }
 
 
 async def deploy_task(payload: DeployRequest) -> None:
@@ -645,10 +1109,13 @@ async def deploy_task(payload: DeployRequest) -> None:
     user_id = site["user_id"]
     site_url = site["site_url"]
     slot = site.get("slot")
+    domain_registrar = site.get("domain_registrar", "namecheap")
     is_first_deploy = not site.get("is_deployed", False)
+    is_self_managed = domain_registrar == "self_managed"
     
     print(f"[DEPLOY] Starting deployment for site {site_id} ({site_url})")
     print(f"[DEPLOY] User: {user_id}, Slot: {slot}, First deploy: {is_first_deploy}")
+    print(f"[DEPLOY] Domain registrar: {domain_registrar}, Self-managed: {is_self_managed}")
 
     # Compute Cloudflare credentials and project name based on slot
     if slot is not None and slot < 70:
@@ -680,9 +1147,11 @@ async def deploy_task(payload: DeployRequest) -> None:
             print(f"[DEPLOY] Cloudflare project: {project_name}")
             
             # 4. First-time setup (domain purchase, site record creation)
-            if is_first_deploy:
+            if is_first_deploy and not is_self_managed:
                 print("[DEPLOY] First-time deployment - setting up domain and site record...")
                 await handle_first_time_deployment(site_url, site_id, user_id)
+            elif is_first_deploy and is_self_managed:
+                print("[DEPLOY] First-time deployment - self-managed domain, skipping domain purchase...")
             
             # 5. Create GitHub repository
             print("[DEPLOY] Creating GitHub repository...")
@@ -705,20 +1174,36 @@ async def deploy_task(payload: DeployRequest) -> None:
             pages_url = pages_result.get("pages_url") if pages_result else None
             print(f"[DEPLOY] Cloudflare Pages URL: {pages_url}")
             
-            # 8. Configure custom domain (first-time only)
-            if is_first_deploy:
+            # 8. Configure custom domain (first-time only, not for self-managed)
+            if is_first_deploy and not is_self_managed:
                 print("[DEPLOY] Configuring custom domain...")
                 await configure_custom_domain(site_url, project_name, cloudflare_api_token, cloudflare_account_id)
+            elif is_first_deploy and is_self_managed:
+                print("[DEPLOY] Self-managed domain - skipping Cloudflare domain configuration...")
             
             # 9. Trigger deployment with noop commit
             print("[DEPLOY] Triggering Cloudflare deployment...")
             await trigger_deployment(work_dir)
             
             # 10. Update site record with final URL
-            final_url = f"https://{site_url}" if is_first_deploy else pages_url
+            if is_self_managed:
+                # For self-managed domains, the final URL is the custom domain (once DNS is set up)
+                final_url = f"https://{site_url}"
+            elif is_first_deploy and not is_self_managed:
+                # For managed domains on first deploy, use the custom domain
+                final_url = f"https://{site_url}"
+            else:
+                # For subsequent deploys, use the pages URL
+                final_url = pages_url
+            
             await update_site_deployment_success(site_id, final_url)
             
-            print(f"[DEPLOY] ✅ Deployment successful! Site available at: {final_url}")
+            if is_self_managed:
+                print(f"[DEPLOY] ✅ Deployment successful! Site deployed to Cloudflare Pages.")
+                print(f"[DEPLOY] 🔧 DNS Setup Required: Configure your domain {site_url} to point to the Cloudflare Pages project.")
+                print(f"[DEPLOY] 📚 Follow the domain setup guide for detailed instructions.")
+            else:
+                print(f"[DEPLOY] ✅ Deployment successful! Site available at: {final_url}")
             
         finally:
             # Clean up temporary directories
@@ -732,20 +1217,111 @@ async def deploy_task(payload: DeployRequest) -> None:
 
 
 async def setup_template_with_content(inputs: Dict[str, Any], site_url: str) -> str:
-    """Set up template directory with user content injected"""
-    # Find the local-business template
-    project_root = Path(__file__).resolve().parent
-    template_paths = [
-        project_root / ".." / "vm-web" / "templates" / "local-business",
-        project_root / "vm-web" / "templates" / "local-business",
-        project_root / "launchpad" / "vm-web" / "templates" / "local-business",
-    ]
+    """Set up template directory with user content injected by cloning from GitHub"""
+    from config import REMOTE_TEMPLATE_REPO, GITHUB_USERNAME, GITHUB_TOKEN
+    import subprocess
     
-    template_dir = None
-    for path in template_paths:
-        if path.exists():
-            template_dir = path
-            break
+    print(f"[DEPLOY] Cloning template from remote repository: {REMOTE_TEMPLATE_REPO}")
+    
+    # Handle different REMOTE_TEMPLATE_REPO formats
+    if REMOTE_TEMPLATE_REPO.startswith("https://github.com/"):
+        # Full GitHub URL - use as is and add authentication
+        base_url = REMOTE_TEMPLATE_REPO
+        authenticated_repo_url = base_url.replace(
+            "https://github.com/", 
+            f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/"
+        )
+    elif "/" in REMOTE_TEMPLATE_REPO and not REMOTE_TEMPLATE_REPO.startswith("http"):
+        # Format like "username/repo" - construct full GitHub URL
+        base_url = f"https://github.com/{REMOTE_TEMPLATE_REPO}.git"
+        authenticated_repo_url = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/{REMOTE_TEMPLATE_REPO}.git"
+    else:
+        # Just repo name like "vm-web" - assume it belongs to GITHUB_USERNAME
+        base_url = f"https://github.com/{GITHUB_USERNAME}/{REMOTE_TEMPLATE_REPO}.git"
+        authenticated_repo_url = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@github.com/{GITHUB_USERNAME}/{REMOTE_TEMPLATE_REPO}.git"
+    
+    print(f"[DEPLOY] Constructed repository URL: {base_url}")
+    
+    # Use a persistent directory for the template repo to enable git pull updates
+    # This avoids re-cloning on every deployment
+    # Use /app/template_cache for persistence (not /tmp which gets cleared)
+    template_cache_dir = Path("/app") / "template_cache" / REMOTE_TEMPLATE_REPO.replace("/", "_")
+    template_cache_dir.parent.mkdir(parents=True, exist_ok=True)
+    
+    try:
+        if template_cache_dir.exists() and (template_cache_dir / ".git").exists():
+            # Repository already exists locally - update it with git pull
+            print(f"[DEPLOY] Found existing template repo at: {template_cache_dir}")
+            print("[DEPLOY] Updating template repo with git pull...")
+            
+            # Change to the repo directory and pull latest changes
+            # Use a safe working directory in case current directory was deleted
+            try:
+                original_cwd = os.getcwd()
+            except FileNotFoundError:
+                # Current working directory doesn't exist, use /app as fallback
+                original_cwd = "/app"
+                os.chdir("/app")
+                
+            os.chdir(template_cache_dir)
+            
+            try:
+                # Configure the remote URL with authentication (in case credentials changed)
+                subprocess.run([
+                    "git", "remote", "set-url", "origin", authenticated_repo_url
+                ], capture_output=True, text=True, check=True)
+                
+                # Pull latest changes
+                pull_result = subprocess.run([
+                    "git", "pull", "origin", "main"
+                ], capture_output=True, text=True, check=True)
+                
+                print(f"[DEPLOY] Successfully updated template repo: {pull_result.stdout.strip()}")
+                
+            finally:
+                # Always restore original working directory
+                os.chdir(original_cwd)
+                
+            clone_dir = template_cache_dir
+        else:
+            # Repository doesn't exist locally - clone it
+            print(f"[DEPLOY] Template repo not found locally, cloning to: {template_cache_dir}")
+            
+            # Remove any existing directory that might be corrupted
+            if template_cache_dir.exists():
+                shutil.rmtree(template_cache_dir)
+            
+            clone_result = subprocess.run([
+                "git", "clone", authenticated_repo_url, str(template_cache_dir)
+            ], capture_output=True, text=True, check=True)
+            
+            print(f"[DEPLOY] Successfully cloned template repo to: {template_cache_dir}")
+            clone_dir = template_cache_dir
+        
+        # Look for the local-business template in the cloned repo
+        # Try different possible paths in the cloned repository
+        possible_template_paths = [
+            Path(clone_dir) / "vm-web" / "templates" / "local-business",
+            Path(clone_dir) / "templates" / "local-business", 
+            Path(clone_dir) / "local-business",
+        ]
+        
+        template_dir = None
+        for template_path in possible_template_paths:
+            print(f"[DEPLOY] Checking for template at: {template_path}")
+            if template_path.exists():
+                template_dir = template_path
+                print(f"[DEPLOY] Found template in cloned repo: {template_dir}")
+                break
+        
+        if not template_dir:
+            # List what's actually in the cloned directory for debugging
+            print(f"[DEPLOY] Contents of cloned repo: {list(Path(clone_dir).iterdir())}")
+            raise RuntimeError(f"local-business template not found in cloned repo. Checked paths: {[str(p) for p in possible_template_paths]}")
+            
+    except subprocess.CalledProcessError as e:
+        print(f"[DEPLOY] Failed to clone template repo: {e.stderr}")
+        raise RuntimeError(f"Failed to clone template repository: {e.stderr}")
     
     if not template_dir:
         raise RuntimeError("local-business template not found")
@@ -1081,12 +1657,42 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+# Add CORS middleware to allow requests from Vercel
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://vm-web-liard.vercel.app",  # Your production Vercel app
+        "https://*.vercel.app",  # All Vercel preview deployments
+        "http://localhost:3000",  # Local development
+        "http://127.0.0.1:3000",  # Local development alternative
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+)
+
 
 @app.post("/research")
-async def research_endpoint(payload: ResearchRequest):
-    task = asyncio.create_task(research_task(payload))
-    track_task(task)
-    return {"ok": True, "status": "processing"}
+async def research_endpoint(payload: ResearchRequest) -> ResearchResponse:
+    """Research a business and generate site.json using ClientBusinessResearcher"""
+    try:
+        # Run client research task directly (synchronously for immediate response)
+        result = await client_research_task(payload)
+        
+        return ResearchResponse(
+            success=result["success"],
+            site_json=result.get("site_json"),
+            business_info=result.get("business_info"),
+            error=result.get("error"),
+            upload_path=result.get("upload_path"),
+            download_url=result.get("download_url")
+        )
+        
+    except Exception as e:
+        return ResearchResponse(
+            success=False,
+            error=str(e)
+        )
 
 
 @app.post("/deploy")
@@ -1098,10 +1704,41 @@ async def deploy_endpoint(payload: DeployRequest):
 
 @app.get("/status")
 async def status_endpoint():
+    # Check environment variables
+    env_status = {}
+    required_env_vars = [
+        "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY",
+        "GEMINI_API_KEY_1", "GITHUB_USERNAME", "GITHUB_TOKEN"
+    ]
+    
+    for var in required_env_vars:
+        if hasattr(config, var):
+            value = getattr(config, var, None)
+            env_status[var] = {
+                "exists": bool(value),
+                "length": len(value) if value else 0,
+                "preview": value[:10] + "..." if value and len(value) > 10 else value[:10] if value else None
+            }
+        else:
+            env_status[var] = {"exists": False, "length": 0, "preview": None}
+    
+    # Test Supabase connection
+    supabase_test = {"available": False, "error": None}
+    if SupabaseClient:
+        try:
+            test_client = SupabaseClient()
+            supabase_test["available"] = True
+        except Exception as e:
+            supabase_test["error"] = str(e)
+    
     return {
         "loop_counter": app_state.loop_counter,
         "active_tasks": len(background_tasks),
         "started_at": app_state.started_at.isoformat(),
+        "business_import_error": BUSINESS_IMPORT_ERROR,
+        "environment_variables": env_status,
+        "supabase_client_available": SupabaseClient is not None,
+        "supabase_connection_test": supabase_test,
     }
 
 

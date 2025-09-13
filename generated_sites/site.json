@@ -1,0 +1,245 @@
+{
+  "businessName": "Around the Edge Barbershop",
+  "logoUrl": "/logo.png",
+  "header": {
+    "showLogo": true,
+    "colors": {
+      "brandText": "#111827",
+      "navText": "#374151"
+    }
+  },
+  "hero": {
+    "backgroundImageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&h=600&q=90",
+    "headline": "San Mateo's Sharpest Cuts, Grooviest Vibes",
+    "subheadline": "Get a fresh look and a unique experience at Around the Edge Barbershop. Walk-ins welcome!",
+    "cta": {
+      "label": "Call for Your Cut",
+      "href": "tel:+16505718484"
+    },
+    "phone": "+16505718484",
+    "colors": {
+      "headline": "#111827",
+      "subheadline": "#4b5563",
+      "ctaText": "#ffffff",
+      "ctaBackground": "#10B981"
+    }
+  },
+  "about": {
+    "title": "About Around the Edge Barbershop",
+    "description": "Around the Edge Barbershop isn't just a place for a haircut; it's a San Mateo institution. We've been dedicated to providing precision cuts and exceptional service to the Bay Area for years, building lasting relationships with our clients and becoming a cornerstone of the community. Our experienced barbers stay ahead of the curve with the latest trends and techniques, ensuring you always leave looking and feeling your best.",
+    "statistics": [
+      {
+        "name": "Years Serving San Mateo",
+        "value": "5+",
+        "icon": "CalendarIcon"
+      },
+      {
+        "name": "Average 5-Star Reviews",
+        "value": "4.8",
+        "icon": "StarIcon"
+      },
+      {
+        "name": "Repeat Clients",
+        "value": "75%+",
+        "icon": "UsersIcon"
+      }
+    ],
+    "features": [
+      "Detailed Consultations: We take the time to understand your individual style and preferences.",
+      "Classic and Modern Styles: From traditional fades to contemporary looks, we've got you covered.",
+      "Premium Products: We use only the highest quality grooming products to nourish your hair and scalp.",
+      "Clean and Comfortable Environment: Relax and enjoy the experience in our meticulously maintained shop.",
+      "Convenient Online Booking: Schedule your appointment with ease.",
+      "Family-Friendly Atmosphere: We welcome clients of all ages."
+    ],
+    "images": [
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Professional service consultation showing team expertise"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Modern tools and equipment used for quality work"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Professional team working on client project"
+      }
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional solutions tailored to your needs",
+    "items": [
+      {
+        "id": "precision-haircuts",
+        "title": "Precision Haircuts",
+        "description": "Experience a haircut tailored perfectly to your individual style. Our skilled barbers provide expert cuts, ensuring you leave feeling fresh and confident.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a barber giving a client a precise haircut with clippers."
+      },
+      {
+        "id": "expert-braiding",
+        "title": "Expert Hair Braiding",
+        "description": "From simple braids to intricate designs, our braiding services offer a unique and stylish look. Alfredo's expertise ensures precision and creativity in every braid.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image showcasing intricate and stylish hair braids."
+      },
+      {
+        "id": "classic-shaves",
+        "title": "Classic Hot Towel Shaves",
+        "description": "Indulge in a traditional hot towel shave for a smooth and refreshing experience. Our classic shaves include pre-shave oil, hot towels, and a soothing aftershave balm.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a barber giving a client a classic hot towel shave with a straight razor."
+      },
+      {
+        "id": "grooming-packages",
+        "title": "Grooming Packages",
+        "description": "Combine multiple services for a complete grooming experience. Our packages can include a haircut, shave, and beard trim, leaving you looking and feeling your best.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a man looking well-groomed after receiving a haircut and beard trim."
+      }
+    ]
+  },
+  "businessBenefits": {
+    "title": "Why Choose Around the Edge Barbershop?",
+    "items": [
+      {
+        "title": "Expert Hair Braiding Services",
+        "description": "Beyond standard cuts, Alfredo specializes in intricate hair braiding styles. Whether you're looking for cornrows, box braids, or a custom design, you'll receive a professional braiding service tailored to your hair type and desired look."
+      },
+      {
+        "title": "Convenient Appointment Scheduling & Walk-Ins",
+        "description": "We understand your time is valuable. That's why we offer both appointment scheduling and welcome walk-ins. Appointments are recommended to guarantee your spot, but we always strive to accommodate walk-in clients whenever possible. Book online or simply stop by!"
+      },
+      {
+        "title": "Wheelchair Accessibility for All Clients",
+        "description": "Around the Edge Barbershop is committed to providing a comfortable and accessible experience for everyone. Our shop features a wheelchair accessible entrance, parking lot, and restroom, ensuring a seamless visit for clients with mobility needs."
+      },
+      {
+        "title": "Kid-Friendly Atmosphere",
+        "description": "Bring the whole family! We pride ourselves on creating a welcoming and fun environment for kids. Our barbers are experienced in providing haircuts for children of all ages, ensuring a stress-free experience for both parents and kids."
+      },
+      {
+        "title": "Multiple Payment Options for Your Convenience",
+        "description": "We accept a variety of payment methods to make your visit as easy as possible. Pay with debit cards or utilize NFC mobile payments for a quick and seamless transaction. We aim to provide flexibility and convenience in every aspect of your experience."
+      },
+      {
+        "title": "Free Parking & Easy Access",
+        "description": "Located in San Mateo, we offer the convenience of free street parking right outside our shop. This means you can easily find a spot and enjoy your haircut without the hassle of paid parking or long walks. We also have on-site parking available."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Don't just take our word for it. Here's what our satisfied clients have to say about our professional services.",
+    "items": [
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV00Xpj_5IH-BFZMVIAcSY2VC5emtuUfr0Xo7xxZzupL8TYhFe-=s120-c-rp-mo-br100",
+        "authorName": "KRMIXMB",
+        "rating": 5,
+        "reviewDate": "7 months",
+        "reviewText": "5-Star Review for Around the Edge Barbershop I recently had the pleasure of visiting Around the Edge Barbershop, and I can honestly say it was one of the best barbering experiences I’ve ever had."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocIh41o9mfRL6vEvnuP_xppOg7EfgHjuomJPJIoUbG9se8gtig=s120-c-rp-mo-br100",
+        "authorName": "Abdou Abderrahmane",
+        "rating": 5,
+        "reviewDate": "6 months",
+        "reviewText": "I’ve been a regular at Around the Edge Barbershop for a while now, and I couldn’t be happier with the service! From the moment you walk in, you’re greeted by a welcoming atmosphere and a professional..."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV2UrXyklOkfINgfZNevHgDbJ_7OkBl5-7W5h4emahaIvTnh2X0=s120-c-rp-mo-br100",
+        "authorName": "Eni Edisson",
+        "rating": 5,
+        "reviewDate": "8 months",
+        "reviewText": "I recently visited Around the Edge Barbershop in San Mateo, and I couldn’t be more impressed! From the moment I walked in, the atmosphere was welcoming, and the staff were friendly and professional."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocIiiVZFT6WM5fDfHToxYVtY0q8Dlt22WIITG722_4MPNLSq19w=s120-c-rp-mo-br100",
+        "authorName": "B.A Corea",
+        "rating": 5,
+        "reviewDate": "7 months",
+        "reviewText": "If you’re looking for a great barber in San Mateo, look no further than Alfredo at Around the Edge Barbershop! I’ve been coming to him for a while now, and he never disappoints."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocKE6QWWgaqO9kaCiVkCPuRqfvNI_wZNN0O2MY2mEgAHulWZoA=s120-c-rp-mo-br100",
+        "authorName": "Cristian Campos",
+        "rating": 5,
+        "reviewDate": "7 months",
+        "reviewText": "I had an outstanding experience at Around the Edge Barbershop! From the moment I walked in, the atmosphere was welcoming and professional. The barbers are skilled, friendly, and really take the time t..."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUZ8pw8W6ZoxUAmsevXSqov_KjVZaRozDrZ0XE_XngSEvTIF_5x=s120-c-rp-mo-br100",
+        "authorName": "Tony",
+        "rating": 5,
+        "reviewDate": "7 months",
+        "reviewText": "I’ve been going to Around the Edge Barbershop in San Mateo for a while now, and I can’t recommend it enough! The vibe is always welcoming and the staff is top-notch."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us today. We're here to help with all your needs.",
+    "address": "22 E 25th Ave, San Mateo, CA 94401",
+    "phone": "+16505718484",
+    "email": "info@aroundtheedgebarbershop.com",
+    "mapEmbedUrl": "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=22%20E%2025th%20Ave%2C%20San%20Mateo%2C%20CA%2094401&t=&z=14&ie=UTF8&iwloc=B&output=embed",
+    "social": {
+      "facebook": "",
+      "twitter": "",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": "",
+      "tiktok": "",
+      "yelp": ""
+    },
+    "businessHours": {
+      "Monday": {
+        "open": "8 AM",
+        "close": "5 PM"
+      },
+      "Tuesday": {
+        "open": "8 AM",
+        "close": "7:30 PM"
+      },
+      "Wednesday": {
+        "open": "8 AM",
+        "close": "7:30 PM"
+      },
+      "Thursday": {
+        "open": "8 AM",
+        "close": "7:30 PM"
+      },
+      "Friday": {
+        "open": "8 AM",
+        "close": "8 PM"
+      },
+      "Saturday": {
+        "open": "8 AM",
+        "close": "6:30 PM"
+      },
+      "Sunday": {
+        "open": "9:30 AM",
+        "close": "6:30 PM"
+      }
+    }
+  },
+  "footer": {
+    "socialLinks": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/yourbusiness"
+      },
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/yourbusiness"
+      },
+      {
+        "platform": "linkedin",
+        "url": "https://linkedin.com/company/yourbusiness"
+      }
+    ],
+    "copyrightText": "© 2025 Your Local Business - All Rights Reserved."
+  }
+}

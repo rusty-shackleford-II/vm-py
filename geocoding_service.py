@@ -1,5 +1,6 @@
 import requests
 import urllib.parse
+import json
 from typing import Optional, Tuple
 from pprint import pprint
 from config import GOOGLE_MAPS_API_KEY
@@ -192,6 +193,87 @@ def get_coordinates(address: str) -> Optional[Tuple[float, float]]:
     return None
 
 
+def coords_to_address(lat: float, lng: float) -> Optional[dict]:
+    """
+    Convert coordinates to address using Google Maps Reverse Geocoding API
+    
+    Args:
+        lat (float): Latitude
+        lng (float): Longitude
+    
+    Returns:
+        Optional[dict]: Full reverse geocoding response from Google Maps API if successful, None if failed
+    """
+    try:
+        # Define the endpoint for reverse geocoding
+        endpoint = f"https://maps.googleapis.com/maps/api/geocode/json?latlng={lat},{lng}&key={GOOGLE_MAPS_API_KEY}"
+        
+        # Make the request
+        response = requests.get(endpoint, timeout=15)
+        
+        # Check if the request was successful
+        if response.status_code != 200:
+            print(f"HTTP Error: {response.status_code}")
+            return None
+            
+        # Parse the response
+        result = response.json()
+        
+        # Check if the reverse geocoding was successful
+        if result['status'] != 'OK':
+            print(f"Reverse Geocoding API Error: {result['status']}")
+            if 'error_message' in result:
+                print(f"Error message: {result['error_message']}")
+            return None
+            
+        return result
+        
+    except requests.exceptions.RequestException as e:
+        print(f"Network error: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return None
+
+
+def pretty_print_geocoding_result(data: dict):
+    """Pretty print reverse geocoding result in a readable format"""
+    
+    # Print top-level status and plus_code
+    print("Status:", data.get("status"))
+    if "plus_code" in data:
+        print("Plus code:", json.dumps(data["plus_code"], indent=2, ensure_ascii=False))
+
+    # Print first result summary (if any)
+    results = data.get("results", [])
+    if not results:
+        print("No results.")
+        return
+
+    first = results[0]
+    print("\nFirst result formatted_address:")
+    print(first.get("formatted_address"))
+
+    print("\nFirst result place_id:", first.get("place_id"))
+    print("\nFirst result types:", first.get("types"))
+
+    # Geometry block
+    geom = first.get("geometry", {})
+    print("\nGeometry.location:", geom.get("location"))
+    print("Geometry.location_type:", geom.get("location_type"))
+    print("Geometry.viewport:", geom.get("viewport"))
+
+    # Address components (city/region/country)
+    print("\nAddress components (long_name / types):")
+    for comp in first.get("address_components", []):
+        print(f"- {comp.get('long_name')} | short={comp.get('short_name')} | types={comp.get('types')}")
+
+    # Pretty-print the raw JSON to inspect full structure
+    print("\nRaw JSON (truncated to first result only):")
+    out = {"status": data.get("status"), "plus_code": data.get("plus_code"), "result_0": first}
+    print(json.dumps(out, indent=2, ensure_ascii=False))
+
+
 if __name__ == "__main__":
     # Test with specific address: 850 Jones St, San Francisco, CA 94109, United States
     address = "850 Jones St, San Francisco, CA 94109, United States"
@@ -204,3 +286,17 @@ if __name__ == "__main__":
         pprint(complete_info)
     else:
         print("Failed to get geocoding information")
+    
+    print("\n" + "="*80)
+    
+    # Test reverse geocoding with San Francisco coordinates (Golden Gate Bridge area)
+    sf_lat = 37.8199
+    sf_lng = -122.4783
+    print(f"Testing reverse geocoding for San Francisco coordinates: {sf_lat}, {sf_lng}")
+    print("="*80)
+    
+    reverse_result = coords_to_address(sf_lat, sf_lng)
+    if reverse_result:
+        pretty_print_geocoding_result(reverse_result)
+    else:
+        print("Failed to get reverse geocoding information")

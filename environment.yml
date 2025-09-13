@@ -2,7 +2,7 @@
 # conda env create -f environment.yml
 #
 # To activate the environment:
-# conda activate piquette
+# conda activate vending-machine
 #
 # To update the environment (if you modify this file):
 # conda env update -f environment.yml
@@ -15,20 +15,45 @@ dependencies:
   # Core Python
   - python=3.11
   
+  # System dependencies for Docker
+  - git
+  - curl
+  
   # Pip-only packages
   - pip
   - pip:
-    - aiohttp==3.11.11
-    - brightdata-sdk==1.0.5
-    - requests==2.32.3
-    - pydantic>=2.11.7,<3.0.0
-    - python-decouple==3.8
-    - typing-extensions==4.14.1
-    - certifi==2025.6.15
-    - google-generativeai==0.8.3
-    - google-api-core==2.24.1
-    - asyncpraw==7.8.1
-    - asyncprawcore==2.4.0
-    - supabase==2.17.0
+    # Web framework and server
     - fastapi==0.115.6
     - uvicorn[standard]==0.32.1
+    - pydantic>=2.11.7,<3.0.0
+    
+    # HTTP clients and networking
+    - aiohttp==3.11.11
+    - requests==2.32.3
+    - certifi==2025.6.15
+    
+    # Configuration management
+    - python-decouple==3.8
+    
+    # Type hints
+    - typing-extensions==4.14.1
+    
+    # Google services
+    - google-generativeai==0.8.3
+    - google-api-core==2.24.1
+    
+    # Supabase client
+    - supabase==2.17.0
+    
+    # BrightData SDK
+    - brightdata-sdk==1.0.5
+    
+    # Location and search utilities
+    - uule-grabber==0.1.9
+    
+    # Reddit API (if needed for research)
+    - asyncpraw==7.8.1
+    - asyncprawcore==2.4.0
+
+    - beautifulsoup4==4.13.5
+    - pyuule==0.1.0

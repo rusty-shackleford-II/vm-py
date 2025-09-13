@@ -974,12 +974,13 @@ The Google reviews to analyze:
         """
         return result.model_dump_json(indent=2, exclude_none=True)
 
-    async def get_maps_place_data(self, fid: str) -> Optional[Dict]:
+    async def get_maps_place_data(self, fid: str, use_mobile_headers: bool = True) -> Optional[Dict]:
         """
         Fetch Google Maps place data using FID
         
         Args:
             fid: Feature ID of the business (e.g., "0x0:0x4547a353b1158112")
+            use_mobile_headers: Whether to use mobile user agent headers (default True)
             
         Returns:
             Dictionary containing Google Maps place data or None if request fails
@@ -990,15 +991,34 @@ The Google reviews to analyze:
             
             print(f"🗺️ Fetching Google Maps data for FID: {fid}")
             print(f"🔗 Maps URL: {target_url}")
+            if use_mobile_headers:
+                print(f"📱 Using mobile user agent headers")
             
             ssl_context = await self._create_ssl_context()
             timeout = aiohttp.ClientTimeout(total=30)
+            
+            # Set up headers - mobile user agent often gets better results
+            headers = {}
+            if use_mobile_headers:
+                headers.update({
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+                    'Accept': 'application/json, text/plain, */*',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Referer': 'https://www.google.com/maps/',
+                    'Origin': 'https://www.google.com',
+                    'Connection': 'keep-alive',
+                    'Sec-Fetch-Dest': 'empty',
+                    'Sec-Fetch-Mode': 'cors',
+                    'Sec-Fetch-Site': 'same-origin',
+                })
             
             async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.get(
                     target_url,
                     proxy=self.proxies["https"],
                     ssl=ssl_context,
+                    headers=headers,
                 ) as response:
                     
                     if response.status == 200:
@@ -1018,10 +1038,22 @@ The Google reviews to analyze:
                     else:
                         error_text = await response.text()
                         print(f"❌ Maps data fetch failed with status {response.status}: {error_text[:200]}")
+                        
+                        # If mobile headers failed and we were using them, try without
+                        if use_mobile_headers:
+                            print(f"🔄 Retrying without mobile headers...")
+                            return await self.get_maps_place_data(fid, use_mobile_headers=False)
+                        
                         return None
                         
         except Exception as e:
             print(f"❌ Error fetching Google Maps data: {e}")
+            
+            # If mobile headers failed and we were using them, try without
+            if use_mobile_headers:
+                print(f"🔄 Retrying without mobile headers due to exception...")
+                return await self.get_maps_place_data(fid, use_mobile_headers=False)
+            
             return None
 
 

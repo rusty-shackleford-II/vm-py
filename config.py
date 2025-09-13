@@ -3,7 +3,7 @@ from decouple import config
 
 
 BRIGHTDATA_API_KEY = config("BRIGHTDATA_API_KEY")
-
+BRIGHTDATA_API_ZONE = config("BRIGHTDATA_API_ZONE")
 
 # GitHub configuration
 GITHUB_USERNAME = config("GITHUB_USERNAME")

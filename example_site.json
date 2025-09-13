@@ -1,0 +1,183 @@
+{
+  "businessName": "Your Local Business",
+  "logoUrl": "/logo.png",
+  "header": {
+    "showLogo": true,
+    "colors": { "brandText": "#111827", "navText": "#374151" }
+  },
+  "hero": {
+    "backgroundImageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=80",
+    "headline": "Your Trusted Local Business Partner",
+    "subheadline": "Professional services you can rely on",
+    "cta": { "label": "Get Started Today", "href": "#contact" },
+    "phone": "(555) 123-4567",
+    "colors": { "headline": "#111827", "subheadline": "#4b5563", "ctaText": "#ffffff", "ctaBackground": "#10B981" }
+  },
+  "about": {
+    "title": "About Your Local Business",
+    "description": "We are a trusted local business serving our community with professional services. Our experienced team provides comprehensive solutions for residential and commercial clients.",
+    "statistics": [
+      {
+        "name": "Years of Experience",
+        "value": "15+",
+        "icon": "AcademicCapIcon"
+      },
+      {
+        "name": "Satisfied Clients", 
+        "value": "500+",
+        "icon": "UsersIcon"
+      },
+      {
+        "name": "Services Offered",
+        "value": "8",
+        "icon": "BuildingOfficeIcon"
+      }
+    ],
+    "features": [
+      "Bilingual Services (English & Spanish)",
+      "Licensed Professionals",
+      "24/7 Service Available",
+      "Competitive Pricing",
+      "Fast & Reliable Service",
+      "Comprehensive Solutions"
+    ],
+    "images": [
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional service consultation"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional tools and workspace"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional team collaboration"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Modern service vehicle"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional installation and repair"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
+        "alt": "Professional working on installation"
+      }
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional solutions tailored to your needs",
+    "items": [
+      {
+        "id": "service1",
+        "title": "Emergency Service",
+        "description": "24/7 emergency services for urgent needs and critical situations.",
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80",
+        "alt": "Emergency service response"
+      },
+      {
+        "id": "service2",
+        "title": "Maintenance & Repair",
+        "description": "Professional maintenance and repair services to keep everything running smoothly.",
+        "imageUrl": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80",
+        "alt": "Professional maintenance service"
+      },
+      {
+        "id": "service3",
+        "title": "Installation & Setup",
+        "description": "Complete installation and setup services for new systems and equipment.",
+        "imageUrl": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=600&q=80",
+        "alt": "Installation and setup work"
+      }
+    ]
+  },
+  "businessBenefits": {
+    "title": "Why Choose Our Services",
+    "items": [
+      {
+        "title": "24/7 availability",
+        "description": "Available whenever you need us most"
+      },
+      {
+        "title": "Rapid response",
+        "description": "Quick response times to serve you better"
+      },
+      {
+        "title": "Expert professionals",
+        "description": "Licensed professionals with years of experience"
+      },
+      {
+        "title": "Modern equipment",
+        "description": "Advanced tools for efficient service delivery"
+      },
+      {
+        "title": "Transparent pricing",
+        "description": "No hidden fees or surprise charges"
+      },
+      {
+        "title": "Quality guarantee",
+        "description": "All work backed by our satisfaction guarantee"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Don't just take our word for it. Here's what our satisfied clients have to say about our professional services.",
+    "items": [
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocKvPw4Lky7-AOkmqnzDQrbHPKmzHyFrdmDLkKtQ2Kya4C0fT84=s120-c-rp-mo-br100",
+        "authorName": "Darren Louis Uyangurin",
+        "rating": 5,
+        "reviewDate": "a day ago",
+        "reviewText": "They responded quickly and fixed the leak in an hour. Excellent work."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocIFeyJgArRLHvcXBdxB-NVZaoDmBzvpTNFbv5x7c_t7xAe6qQ=s120-c-rp-mo-br100",
+        "authorName": "Nieljose Villahermosa",
+        "rating": 5,
+        "reviewDate": "a day ago",
+        "reviewText": "The work was completed expertly and thoroughly, far exceeding expectations."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us today. We're here to help with all your needs.",
+    "address": "123 Business Street, San Jose, CA 95126",
+    "phone": "(555) 123-4567",
+    "email": "hello@yourbusiness.com",
+    "mapEmbedUrl": "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=123+Business+Street,+San+Jose,+CA+95126&t=&z=14&ie=UTF8&iwloc=B&output=embed",
+    "businessHours": {
+      "Monday": {"open": "8:00 AM", "close": "6:00 PM"},
+      "Tuesday": {"open": "8:00 AM", "close": "6:00 PM"},
+      "Wednesday": {"open": "8:00 AM", "close": "6:00 PM"},
+      "Thursday": {"open": "8:00 AM", "close": "6:00 PM"},
+      "Friday": {"open": "8:00 AM", "close": "6:00 PM"},
+      "Saturday": {"open": "9:00 AM", "close": "4:00 PM"},
+      "Sunday": "closed"
+    },
+    "social": {
+      "facebook": "https://facebook.com/yourbusiness",
+      "twitter": "https://twitter.com/yourbusiness",
+      "instagram": "https://instagram.com/yourbusiness",
+      "linkedin": "https://linkedin.com/company/yourbusiness",
+      "youtube": "",
+      "tiktok": "",
+      "yelp": "https://yelp.com/biz/your-business"
+    }
+  },
+  "footer": {
+    "socialLinks": [
+      { "platform": "instagram", "url": "https://instagram.com/yourbusiness" },
+      { "platform": "facebook", "url": "https://facebook.com/yourbusiness" },
+      { "platform": "linkedin", "url": "https://linkedin.com/company/yourbusiness" }
+    ],
+    "copyrightText": "© 2025 Your Local Business - All Rights Reserved."
+  }
+}
+
+

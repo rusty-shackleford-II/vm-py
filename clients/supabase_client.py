@@ -24,13 +24,40 @@ class SupabaseClient:
             ValueError: If required config values are missing.
         """
         # Get credentials from config
-        self.url = getattr(config, "SUPABASE_URL", None)
-        self.service_role_key = getattr(config, "SUPABASE_SERVICE_ROLE_KEY", None)
+        raw_url = getattr(config, "SUPABASE_URL", None)
+        raw_key = getattr(config, "SUPABASE_SERVICE_ROLE_KEY", None)
+        
+        print(f"[SUPABASE] Raw SUPABASE_URL from config: {repr(raw_url)}")
+        print(f"[SUPABASE] Raw SUPABASE_SERVICE_ROLE_KEY length: {len(raw_key) if raw_key else 0}")
+        
+        # Strip quotes from environment variables (common issue in Docker/env files)
+        self.url = raw_url
+        self.service_role_key = raw_key
+        
+        if self.url and isinstance(self.url, str):
+            original_url = self.url
+            self.url = self.url.strip().strip('"').strip("'")
+            if original_url != self.url:
+                print(f"[SUPABASE] ⚠️  Stripped quotes from URL: {repr(original_url)} -> {repr(self.url)}")
+                
+        if self.service_role_key and isinstance(self.service_role_key, str):
+            original_key = self.service_role_key
+            self.service_role_key = self.service_role_key.strip().strip('"').strip("'")
+            if original_key != self.service_role_key:
+                print(f"[SUPABASE] ⚠️  Stripped quotes from service key (length changed: {len(original_key)} -> {len(self.service_role_key)})")
 
         if not self.url:
-            raise ValueError("SUPABASE_URL not found in config.py")
+            raise ValueError("SUPABASE_URL not found in config.py or environment variables")
         if not self.service_role_key:
-            raise ValueError("SUPABASE_SERVICE_ROLE_KEY not found in config.py")
+            raise ValueError("SUPABASE_SERVICE_ROLE_KEY not found in config.py or environment variables")
+        
+        # Validate URL format
+        if not self.url.startswith(('http://', 'https://')):
+            raise ValueError(f"SUPABASE_URL must start with http:// or https://, got: {self.url[:50]}...")
+        if not self.url.endswith('.supabase.co'):
+            print(f"⚠️  WARNING: SUPABASE_URL doesn't end with .supabase.co: {self.url[:50]}...")
+        
+        print(f"✅ SupabaseClient validated URL: {self.url[:50]}...")
 
         # Initialize Supabase client
         self.client: Client = create_client(self.url, self.service_role_key)
@@ -68,27 +95,42 @@ class SupabaseClient:
         bucket = bucket_name or self.default_bucket
 
         try:
+            print(f"[SUPABASE] Starting upload: {local_path} -> {bucket}/{remote_path}")
+            print(f"[SUPABASE] File size: {local_path.stat().st_size} bytes")
+            print(f"[SUPABASE] Overwrite: {overwrite}")
+            
             with open(local_path, "rb") as f:
                 file_data = f.read()
 
             # Determine content type based on file extension
             content_type = self._get_content_type(local_path)
+            print(f"[SUPABASE] Content type: {content_type}")
 
             if overwrite:
                 # Remove existing file first if it exists
                 try:
+                    print(f"[SUPABASE] Removing existing file: {bucket}/{remote_path}")
                     self.client.storage.from_(bucket).remove([remote_path])
-                except Exception:
+                    print(f"[SUPABASE] Existing file removed successfully")
+                except Exception as remove_error:
+                    print(f"[SUPABASE] No existing file to remove (or removal failed): {remove_error}")
                     pass  # Ignore error if file doesn't exist
 
+            print(f"[SUPABASE] Uploading file to Supabase storage...")
             result = self.client.storage.from_(bucket).upload(
                 remote_path, file_data, file_options={"content-type": content_type}
             )
+            print(f"[SUPABASE] Upload result: {result}")
 
             print(f"✅ Uploaded {local_path} to {bucket}/{remote_path}")
             return result
 
         except Exception as e:
+            print(f"[SUPABASE] Upload error: {str(e)}")
+            print(f"[SUPABASE] Error type: {type(e).__name__}")
+            import traceback
+            print(f"[SUPABASE] Upload traceback:")
+            print(traceback.format_exc())
             raise RuntimeError(f"Failed to upload {local_path}: {str(e)}")
 
     def download_file(
@@ -429,6 +471,77 @@ class SupabaseClient:
 
         except Exception as e:
             raise RuntimeError(f"Failed to list buckets: {str(e)}")
+
+    def get_public_url(self, remote_path: str, bucket_name: Optional[str] = None) -> str:
+        """
+        Get the public URL for a file in a public bucket.
+
+        Args:
+            remote_path (str): Remote path of the file.
+            bucket_name (Optional[str]): Bucket name. Uses default if None.
+
+        Returns:
+            str: Public URL for the file.
+
+        Raises:
+            RuntimeError: If getting public URL fails.
+        """
+        bucket = bucket_name or self.default_bucket
+
+        try:
+            print(f"[SUPABASE] Generating public URL for {bucket}/{remote_path}")
+            print(f"[SUPABASE] Using Supabase URL: {self.url[:50]}..." if len(self.url) > 50 else f"[SUPABASE] Using Supabase URL: {self.url}")
+            print(f"[SUPABASE] Service role key length: {len(self.service_role_key) if self.service_role_key else 0}")
+            
+            # Try the Supabase client's get_public_url method
+            public_url = self.client.storage.from_(bucket).get_public_url(remote_path)
+            
+            print(f"🔗 Generated public URL for {bucket}/{remote_path}")
+            print(f"[SUPABASE] Public URL: {public_url}")
+            print(f"[SUPABASE] Public URL type: {type(public_url)}")
+            
+            # Handle different return types from Supabase client
+            if hasattr(public_url, 'get'):
+                # Sometimes the client returns a dict with 'publicUrl' key
+                if 'publicUrl' in public_url:
+                    actual_url = public_url['publicUrl']
+                    print(f"[SUPABASE] Extracted URL from dict: {actual_url}")
+                    public_url = actual_url
+                else:
+                    print(f"[SUPABASE] Dict keys: {list(public_url.keys())}")
+            
+            # Validate that the URL looks reasonable
+            if not public_url or not isinstance(public_url, str):
+                print(f"[SUPABASE] Invalid public URL returned: {public_url} (type: {type(public_url)})")
+                # Try constructing URL manually as fallback
+                fallback_url = f"{self.url}/storage/v1/object/public/{bucket}/{remote_path}"
+                print(f"[SUPABASE] Using fallback URL construction: {fallback_url}")
+                return fallback_url
+            
+            if not public_url.startswith(('http://', 'https://')):
+                print(f"[SUPABASE] URL doesn't start with http/https: {public_url}")
+                # Try constructing URL manually as fallback
+                fallback_url = f"{self.url}/storage/v1/object/public/{bucket}/{remote_path}"
+                print(f"[SUPABASE] Using fallback URL construction: {fallback_url}")
+                return fallback_url
+            
+            return public_url
+
+        except Exception as e:
+            print(f"[SUPABASE] Error getting public URL: {str(e)}")
+            print(f"[SUPABASE] Error type: {type(e).__name__}")
+            import traceback
+            print(f"[SUPABASE] Full traceback:")
+            print(traceback.format_exc())
+            
+            # Try manual URL construction as last resort
+            try:
+                fallback_url = f"{self.url}/storage/v1/object/public/{bucket}/{remote_path}"
+                print(f"[SUPABASE] Attempting fallback URL construction: {fallback_url}")
+                return fallback_url
+            except Exception as fallback_error:
+                print(f"[SUPABASE] Fallback URL construction also failed: {fallback_error}")
+                raise RuntimeError(f"Failed to get public URL for {remote_path}: {str(e)}")
 
     # Database operations for site_customers table
 

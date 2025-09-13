@@ -1,0 +1,215 @@
+{
+  "businessName": "Caccia's Home Services",
+  "logoUrl": "/logo.png",
+  "header": {
+    "showLogo": true,
+    "colors": {
+      "brandText": "#111827",
+      "navText": "#374151"
+    }
+  },
+  "hero": {
+    "backgroundImageUrl": "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&w=1200&h=600&q=90",
+    "headline": "Fast, Reliable Plumbing & Electrical Services in San Mateo & Burlingame",
+    "subheadline": "From leaky faucets to EV charger installations, Caccia's Home Services delivers expert solutions with integrity. Black-owned and operated, serving our community with pride.",
+    "cta": {
+      "label": "Call Now for Immediate Assistance",
+      "href": "tel:+16503425363"
+    },
+    "phone": "+16503425363",
+    "colors": {
+      "headline": "#111827",
+      "subheadline": "#4b5563",
+      "ctaText": "#ffffff",
+      "ctaBackground": "#10B981"
+    }
+  },
+  "about": {
+    "title": "About Caccia's Home Services",
+    "description": "Caccia's Home Services is dedicated to providing top-quality plumbing and electrical solutions to the San Mateo and Burlingame communities. We believe in transparent communication, fair pricing, and exceeding expectations on every project, whether it's a minor repair or a complete system installation. Our commitment to excellence ensures your home is in safe and capable hands.",
+    "statistics": [
+      {
+        "name": "Years of Combined Experience",
+        "value": "15+",
+        "icon": "ClockIcon"
+      },
+      {
+        "name": "Positive Customer Reviews",
+        "value": "100+",
+        "icon": "StarIcon"
+      },
+      {
+        "name": "Successful Projects Completed",
+        "value": "500+",
+        "icon": "CheckBadgeIcon"
+      }
+    ],
+    "features": [
+      "Upfront, Transparent Pricing: No hidden fees or surprises.",
+      "24/7 Emergency Services: We're here when you need us most.",
+      "Licensed and Insured: Protecting your home and family.",
+      "Commitment to Sustainable Practices: Environmentally conscious solutions.",
+      "Latest Technology and Techniques: Ensuring efficient and effective service."
+    ],
+    "images": [
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Professional service consultation showing team expertise"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Modern tools and equipment used for quality work"
+      },
+      {
+        "imageUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&h=600&q=80",
+        "alt": "Professional team working on client project"
+      }
+    ]
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional solutions tailored to your needs",
+    "items": [
+      {
+        "id": "residential-plumbing-services",
+        "title": "Comprehensive Residential Plumbing Services",
+        "description": "From leaky faucets to complete home repiping, Caccia's Home Services offers expert plumbing solutions for San Mateo and Burlingame homeowners. We handle repairs, installations, and maintenance with punctuality and professionalism, ensuring your plumbing system functions flawlessly.",
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a plumber working on pipes under a residential sink."
+      },
+      {
+        "id": "drainage-solutions",
+        "title": "Expert Drain Cleaning and Repair",
+        "description": "Don't let clogged or slow drains disrupt your day. Our team provides thorough drain cleaning, inspection, and repair services, utilizing the latest techniques to eliminate blockages and restore proper drainage throughout your home.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a plumber using a drain snake to clear a clogged drain."
+      },
+      {
+        "id": "fixture-installation-repair",
+        "title": "Fixture Installation and Repair Services",
+        "description": "Upgrade your home with new plumbing fixtures or let us repair your existing ones. We expertly install and repair faucets, sinks, toilets, garbage disposals (like Insinkerator), and more, ensuring proper function and leak-free performance.",
+        "imageUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image showcasing a newly installed kitchen faucet."
+      },
+      {
+        "id": "ev-charger-installation",
+        "title": "Electric Vehicle (EV) Charger Installation",
+        "description": "Prepare your home for the future with professional EV charger installation services. Our certified electricians will safely and efficiently install your EV charging station, making it easy to power your electric vehicle at home in San Mateo and Burlingame.",
+        "imageUrl": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&h=400&q=80",
+        "alt": "Image of a newly installed EV charger in a home garage."
+      }
+    ]
+  },
+  "businessBenefits": {
+    "title": "Why Choose Caccia's Home Services",
+    "items": [
+      {
+        "title": "Convenient Online Estimates",
+        "description": "Get a quick and easy estimate for your plumbing or electrical needs through our online platform. Simply provide details about your project, and we'll provide a clear and transparent estimate to help you plan your budget."
+      },
+      {
+        "title": "Prompt On-Site Service in San Mateo & Burlingame",
+        "description": "We prioritize serving our local community. Our team is strategically located to ensure rapid response times for on-site plumbing and electrical services throughout San Mateo and Burlingame. Expect a technician at your door quickly when you need us most."
+      },
+      {
+        "title": "Comprehensive Repair Solutions",
+        "description": "From minor leaks and faulty wiring to major system repairs, we offer comprehensive solutions to address all your plumbing and electrical repair needs. We diagnose the root cause of the problem and provide lasting repairs, not just temporary fixes."
+      },
+      {
+        "title": "LGBTQ+ Friendly & Inclusive Service",
+        "description": "We are committed to providing a welcoming and respectful experience for all our customers. Our team is trained to provide professional and courteous service to everyone, regardless of their background or identity. We value diversity and inclusion in our community."
+      },
+      {
+        "title": "Modern Payment Options",
+        "description": "For your convenience, we accept all major credit cards, making it easy to pay for our services. We also provide detailed invoices for your records."
+      },
+      {
+        "title": "Experienced Technicians, Trusted in Your Neighborhood",
+        "description": "Our technicians, like Joseph, Eric, and Luvet (mentioned by your neighbors!), bring years of experience to every job. We focus on building lasting relationships within the community by providing reliable, high-quality work that you can trust."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "What Our Clients Say",
+    "subtitle": "Don't just take our word for it. Here's what our satisfied clients have to say about our professional services.",
+    "items": [
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocJGLtVCB6RR9vwTqQu8CLfzCVTyok08rcRnvowVuylRlhKTgQ=s120-c-rp-mo-br100",
+        "authorName": "Wendy G",
+        "rating": 5,
+        "reviewDate": "5 months",
+        "reviewText": "I live in Half Moon Bay and needed a new gas water heater. I called Caccia Plumbing in San Mateo to inquire about their pricing and spoke to Zaida who was incredibly helpful and lovely to talk to."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocK83M6RuJzE4EmSr26o7PKspNm-VxyI-hT4T6_bfUrzL_zp9Fdt=s120-c-rp-mo-br100",
+        "authorName": "Vivian Yeh",
+        "rating": 5,
+        "reviewDate": "6 months",
+        "reviewText": "Jaime Magana and Hector came to install the whole house water filtration system. He was very professional and polite. Before starting working on the project, he makes sure to review the process with m..."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocIm7ssWQrjyQoaVmozDQDOTJa5jvy-2bMk3kXZwmVMw2MZUng=s120-c-rp-mo-br100",
+        "authorName": "Nikki Pavis",
+        "rating": 5,
+        "reviewDate": "2 months",
+        "reviewText": "The whole team at Caccia and Cristian were excellent! They were able to get someone out to our office very quickly. They even escalated the situation to make sure we got a plumber out here as soon as..."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocIzA61I7YxgfXD4kImVixkUj_SsG4lvlT9gZ7AohBFBo_h0Ig=s120-c-rp-mo-br100",
+        "authorName": "Pat Haley",
+        "rating": 5,
+        "reviewDate": "2 weeks",
+        "reviewText": "The team at Caccia Home Services did a great job diagnosing and replacing our under house drain. Erik took time to talk me through the video of our drain system and discuss options as well as the pro’..."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a-/ALV-UjW_v8SyCO7XghMDT2hpSzneejCDC42KMnKDGRZ8N7Z1o_Pw8vuJ=s120-c-rp-mo-br100",
+        "authorName": "Richard Bloom",
+        "rating": 5,
+        "reviewDate": "5 months",
+        "reviewText": "We are so thankful and appreciative for the excellent work performed on our home by Caccia Plumbing. Punctual, professional, courteous, and very capable— these plumbers are tops in their field."
+      },
+      {
+        "authorImageUrl": "https://lh3.googleusercontent.com/a/ACg8ocLWq_oIzmqPj1CdyzaX5Y5L7b0M1i4fiFM4Y8LO1cPfzDDsxw=s120-c-rp-mo-br100",
+        "authorName": "Christine Romo-Munday",
+        "rating": 5,
+        "reviewDate": "a month",
+        "reviewText": "The plumbing technician was excellent. His skills were great. Replacing washer hose connections and recessing them with patching g the opening done well."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us today. We're here to help with all your needs.",
+    "address": "1660 Gilbreth Rd, Burlingame, CA 94010",
+    "phone": "+16503425363",
+    "email": "info@cacciaplumbing.com",
+    "mapEmbedUrl": "https://maps.google.com/maps?width=100%25&height=600&hl=en&q=1660%20Gilbreth%20Rd%2C%20Burlingame%2C%20CA%2094010&t=&z=14&ie=UTF8&iwloc=B&output=embed",
+    "social": {
+      "facebook": "",
+      "twitter": "",
+      "instagram": "",
+      "linkedin": "",
+      "youtube": "",
+      "tiktok": "",
+      "yelp": ""
+    },
+    "businessHours": "Tuesday: 7 AM–5 PM\nWednesday: 7 AM–5 PM\nThursday: 7 AM–5 PM\nFriday: 7 AM–5 PM\nSaturday: 7 AM–5 PM\nSunday: 7 AM–5 PM\nMonday: 7 AM–5 PM"
+  },
+  "footer": {
+    "socialLinks": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/yourbusiness"
+      },
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/yourbusiness"
+      },
+      {
+        "platform": "linkedin",
+        "url": "https://linkedin.com/company/yourbusiness"
+      }
+    ],
+    "copyrightText": "© 2025 Your Local Business - All Rights Reserved."
+  }
+}

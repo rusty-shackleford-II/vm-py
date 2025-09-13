@@ -1,0 +1,42 @@
+
+# Run this in local terminal
+cd vm-py
+docker build --platform linux/amd64 -t vending-machine-app -f Dockerfile .
+docker run --env-file .env -p 8000:8000 vending-machine-app
+docker save -o /Users/warren/vending-machine-app.tar vending-machine-app
+scp /Users/warren/vending-machine-app.tar root@146.190.170.64:/root
+
+# Run this in digital ocean web console
+docker load -i /root/vending-machine-app.tar
+docker images
+docker run -d --name vending-machine-container --memory="1024m" -p 8000:8000 vending-machine-app
+docker logs vending-machine-container
+docker logs --tail 1000 vending-machine-container
+
+# To stop it 
+docker stop vending-machine-container
+
+# To start it
+docker start vending-machine-container
+
+# To redeploy:
+
+# In local:
+docker build --platform linux/amd64 -t vending-machine-app -f Dockerfile .
+docker save -o /Users/warren/vending-machine-app.tar vending-machine-app
+scp /Users/warren/vending-machine-app.tar root@146.190.170.64:/root
+
+# In digital ocean web console
+docker stop vending-machine-container & docker rm vending-machine-container & docker image prune -f
+docker load -i /root/vending-machine-app.tar
+docker run -d --name vending-machine-container --memory="1024m" \
+  --env-file .env \
+  -p 8000:8000 \
+  --log-driver json-file \
+  --log-opt max-size=2m \
+  --log-opt max-file=2 \
+  vending-machine-app
+docker logs vending-machine-container
+docker logs --tail 1000 vending-machine-container
+
+
